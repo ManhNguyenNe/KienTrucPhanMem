@@ -6,17 +6,45 @@ import { setHours, setMinutes, format } from 'date-fns';
 const DateTime = ({setDate, allowedDays}) => {
   const [selectedDate, setSelectedDate] = useState(null);
   
+  useEffect(() => {
+    console.log("Allowed Days:", allowedDays);
+  }, [allowedDays]);
+
   const isAllowedDate = (date) => {
+    if (!allowedDays || !Array.isArray(allowedDays) || allowedDays.length === 0) {
+      console.log("No allowed days configured");
+      return true; // Cho phép chọn tất cả các ngày nếu chưa có cấu hình
+    }
     // Check if the date's day is in the allowedDays array
-    return allowedDays.some((allowedDay) => allowedDay.day === date.getDay());
+    const isAllowed = allowedDays.some((allowedDay) => allowedDay.day === date.getDay());
+    console.log("Date check:", date, "Is allowed:", isAllowed);
+    return isAllowed;
   };
 
   const isAllowedTime = (date) => {
+    if (!allowedDays || !Array.isArray(allowedDays) || allowedDays.length === 0) {
+      console.log("No schedule configured, allowing all times");
+      return true;
+    }
+
     const allowedDay = allowedDays.find((day) => day.day === date.getDay());
-    if (!allowedDay) return false;
+    if (!allowedDay) {
+      console.log("No schedule for day:", date.getDay());
+      return false;
+    }
 
     const minutes = date.getHours() * 60 + date.getMinutes();
-    return minutes >= allowedDay.starttime && minutes <= allowedDay.endtime - 60;
+    const isAllowed = minutes >= allowedDay.starttime && minutes <= allowedDay.endtime;
+    
+    console.log("Time check details:", {
+      selectedTime: `${date.getHours()}:${date.getMinutes()}`,
+      selectedMinutes: minutes,
+      allowedStart: `${Math.floor(allowedDay.starttime/60)}:${allowedDay.starttime%60}`,
+      allowedEnd: `${Math.floor(allowedDay.endtime/60)}:${allowedDay.endtime%60}`,
+      isAllowed
+    });
+    
+    return isAllowed;
   };
 
   const filterTime = (time) => {
@@ -25,17 +53,33 @@ const DateTime = ({setDate, allowedDays}) => {
 
   useEffect(() => {
     if (selectedDate) {
+      try {
         const formattedDate = format(selectedDate, "yyyy-MM-dd'T'HH:mm:ssXXX");
-        // console.log('Selected Date and Time:', formattedDate.slice(0,19)+'Z');
-        setDate(formattedDate.slice(0,19)+'Z');
+        const finalDate = formattedDate.slice(0,19)+'Z';
+        console.log('Setting date:', {
+          selectedDate,
+          formattedDate,
+          finalDate
+        });
+        setDate(finalDate);
+      } catch (error) {
+        console.error("Error formatting date:", error);
+      }
     }
-  }, [selectedDate]);
+  }, [selectedDate, setDate]);
 
   return (
     <>
       <DatePicker
         selected={selectedDate}
-        onChange={(date) => setSelectedDate(date)}
+        onChange={(date) => {
+          console.log("DatePicker onChange:", {
+            date,
+            hours: date.getHours(),
+            minutes: date.getMinutes()
+          });
+          setSelectedDate(date);
+        }}
         filterDate={isAllowedDate}
         showTimeSelect
         timeIntervals={15}
@@ -45,6 +89,7 @@ const DateTime = ({setDate, allowedDays}) => {
         filterTime={filterTime}
         dateFormat="MMMM d, yyyy h:mm aa"
         placeholderText="Select a date and time"
+        className="text-gray-900 py-1 px-3 rounded-sm"
       />
     </>
   );

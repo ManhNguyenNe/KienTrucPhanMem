@@ -6,7 +6,7 @@ import Header from '../Home/Header/Header';
 
 export default function AdminLogin() {
   // State to hold user input and errors
-  const [User, setUser] = useState("");
+  const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [err, setErr] = useState('');
@@ -20,8 +20,10 @@ export default function AdminLogin() {
     // Client-side validation
     const newErrors = {};
 
-    if (!User.trim()) {
-        newErrors.User = "User Name is required";
+    if (!Email.trim()) {
+        newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(Email)) {
+        newErrors.email = "Invalid email format";
     }
   
     if (!Password.trim()) {
@@ -36,12 +38,15 @@ export default function AdminLogin() {
 
     // Prepare data object to send to the backend
     const data = {
-      username: User,
-      password: Password,
+      Email,
+      Password,
     };
 
     try {
       // Send data to backend
+      console.log("Sending request to:", `/api/admin/login`);
+      console.log("Request data:", data);
+      
       const response = await fetch(`/api/admin/login`, {
         method: 'POST',
         credentials: "include",
@@ -51,21 +56,23 @@ export default function AdminLogin() {
         body: JSON.stringify(data),
       });
 
-      const responesData = await response.json()
+      console.log("Response status:", response.status);
+      const responesData = await response.json();
+      console.log("Response data:", responesData);
+      
       setErr(responesData.message);
       const userid = responesData.data.admin._id
  
       // Handle response
       if (response.ok) {
           console.log(response); 
-        
-       navigate(`/admin/${userid}`)
+          localStorage.setItem("admin", JSON.stringify(responesData.data.admin));
+          navigate(`/admin/${userid}`);
       } else if (response.status === 401) {
         // Incorrect password
         setErrors({ password: responesData.message || "Incorrect password" });
       } else if (response.status === 403) {
         // Account locked, disabled, or other authentication issues
-
         setErrors({ general: responesData.message || "Login failed" });
       } else if (response.status === 400) {
         setErrors({ general: responesData.message || "Admin does not exist" });
@@ -74,7 +81,6 @@ export default function AdminLogin() {
         setErrors({ general: "An unexpected error occurred" });
       }
     } catch (error) {
-   
       setErrors(error.message);
     }
   };
@@ -100,14 +106,14 @@ export default function AdminLogin() {
           <form onSubmit={handleSubmit}>
             <div className="input-1">
               <input
-                type="text"
-                placeholder="User name"
+                type="email"
+                placeholder="Email Address"
                 className="input-0"
-                value={User}
-                onChange={(e) => setUser(e.target.value)}
+                value={Email}
+                onChange={(e) => setEmail(e.target.value)}
               />
-              {errors.User && (
-                <div className="error-message">{errors.User}</div>
+              {errors.email && (
+                <div className="error-message">{errors.email}</div>
               )}
             </div>
             <div className="input-2">

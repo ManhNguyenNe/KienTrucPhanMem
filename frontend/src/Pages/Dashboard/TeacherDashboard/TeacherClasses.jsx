@@ -13,21 +13,52 @@ function TeacherClasses() {
     useEffect(() => {
         const getData = async () => {
             try {
-                const response = await fetch(`/api/course/classes/teacher/${ID}`, {
+                const response = await fetch(`/api/course/teacher/${ID}/enrolled`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                     },
+                    credentials: 'include'
                 });
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
 
                 const user = await response.json();
-                setData(user.data.classes[0]?.liveClasses || []);
-                console.log(user.data);
+                console.log("API Response:", user);
+
+                if (!user.data || !Array.isArray(user.data)) {
+                    console.error("Invalid data format:", user);
+                    setData([]);
+                    return;
+                }
+
+                // Log chi tiết từng khóa học
+                user.data.forEach((course, index) => {
+                    console.log(`Course ${index + 1}:`, {
+                        coursename: course.coursename,
+                        liveClasses: course.liveClasses,
+                        schedule: course.schedule
+                    });
+                });
+
+                // Lấy tất cả liveClasses từ tất cả các khóa học
+                const allLiveClasses = user.data.flatMap(course => {
+                    if (!course.liveClasses || !Array.isArray(course.liveClasses)) {
+                        console.log(`No liveClasses for course ${course.coursename}`);
+                        return [];
+                    }
+                    return course.liveClasses.map(liveClass => ({
+                        ...liveClass,
+                        coursename: course.coursename || 'Unknown Course'
+                    }));
+                });
+
+                console.log("Processed live classes:", allLiveClasses);
+                setData(allLiveClasses);
 
             } catch (error) {
+                console.error("Error fetching data:", error);
                 setError(error.message);
             }
         };

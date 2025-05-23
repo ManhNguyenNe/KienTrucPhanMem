@@ -23,21 +23,36 @@ function AddClass({ onClose }) {
   ];
   
   function setToMidnight(dateTimeString) {
-    // Create a new Date object from the input string
-    let date = new Date(dateTimeString);
-    
-    // Extract the time part
-    let hours = date.getUTCHours();
-    let minutes = date.getUTCMinutes();
-    let seconds = date.getUTCSeconds();
-    
-    let totalMinutes = (hours * 60) + minutes;
-    date.setUTCHours(0, 0, 0, 0);
-    let modifiedDateTimeString = date.toISOString();
-    
-    const DATETIME = [totalMinutes, modifiedDateTimeString];
-    
-    return DATETIME;
+    try {
+      console.log("Processing date:", dateTimeString);
+      
+      // Create a new Date object from the input string
+      let date = new Date(dateTimeString);
+      if (isNaN(date.getTime())) {
+        throw new Error("Invalid date string");
+      }
+      
+      // Extract the time part
+      let hours = date.getHours();
+      let minutes = date.getMinutes();
+      
+      let totalMinutes = (hours * 60) + minutes;
+      date.setHours(0, 0, 0, 0);
+      let modifiedDateTimeString = date.toISOString();
+      
+      console.log("Date processing result:", {
+        input: dateTimeString,
+        hours,
+        minutes,
+        totalMinutes,
+        modifiedDateTimeString
+      });
+      
+      return [totalMinutes, modifiedDateTimeString];
+    } catch (error) {
+      console.error("Error in setToMidnight:", error);
+      return null;
+    }
   }
 
   useEffect(() => {
@@ -76,52 +91,92 @@ function AddClass({ onClose }) {
   
 
   const addCourses = async () => {
+    console.log("Starting form submission with values:", {
+      note,
+      date,
+      link,
+      CourseId
+    });
+
+    // Kiểm tra các trường bắt buộc
+    if (!note || !date || !link) {
+      console.log("Validation failed:", {
+        note: !note ? "Missing" : note,
+        date: !date ? "Missing" : date,
+        link: !link ? "Missing" : link
+      });
+      alert('Vui lòng điền đầy đủ thông tin!');
+      return;
+    }
+
     const currentDate = new Date();
     const givenDate = new Date(date);
 
-    const modifyDate = setToMidnight(date);
-
-    const data = {
-      title: note,
-      timing: modifyDate[0],
-      date: modifyDate[1],
-      link: link,
-      status: 'upcoming',
-    };
-
-    // console.log("add classes",data)
-
+    console.log("Date comparison:", {
+      currentDate: currentDate.toISOString(),
+      givenDate: givenDate.toISOString()
+    });
 
     if (currentDate > givenDate) {
-      alert('choose a valid Date!');
-    } else if (note === '' || date === '' || link === '') {
-      alert('All fields are required!');
-    } else {
-      try {
-        const response = await fetch(`/api/course/${CourseId}/teacher/${ID}/add-class`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        });
+      alert('Vui lòng chọn ngày trong tương lai!');
+      return;
+    }
 
-        const res = await response.json();
-        alert(res.message);
+    try {
+      const modifyDate = setToMidnight(date);
+      console.log("Modified date:", modifyDate);
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch data');
-        }
-
-        
-        
-
-        if (res.statusCode === 200) {
-          onClose();
-        }
-      } catch (error) {
-        setError(error.message);
+      if (!modifyDate || !Array.isArray(modifyDate) || modifyDate.length !== 2) {
+        console.error("Invalid modifyDate:", modifyDate);
+        throw new Error("Invalid date format");
       }
+
+      // Kiểm tra và chuyển đổi timing thành số
+      const timing = parseInt(modifyDate[0]);
+      if (isNaN(timing)) {
+        console.error("Invalid timing:", modifyDate[0]);
+        throw new Error("Invalid timing format");
+      }
+
+      const data = {
+        title: note.trim(),
+        timing: timing,
+        date: modifyDate[1],
+        link: link.trim(),
+        status: 'upcoming',
+      };
+
+      console.log("Submitting data:", data);
+
+      // Kiểm tra dữ liệu trước khi gửi
+      if (!data.title || !data.timing || !data.date || !data.link) {
+        console.log("Invalid data:", data);
+        throw new Error("Invalid data format");
+      }
+
+      const response = await fetch(`/api/course/${CourseId}/teacher/${ID}/add-class`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        credentials: 'include'
+      });
+
+      const res = await response.json();
+      console.log("API Response:", res);
+
+      if (!response.ok) {
+        throw new Error(res.message || 'Failed to add class');
+      }
+
+      alert(res.message);
+      if (res.statusCode === 200) {
+        onClose();
+      }
+    } catch (error) {
+      console.error("Error adding class:", error);
+      alert(error.message);
     }
   };
 

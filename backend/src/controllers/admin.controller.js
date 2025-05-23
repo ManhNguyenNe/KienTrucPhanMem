@@ -10,22 +10,25 @@ import {Sendmail} from "../utils/Nodemailer.js"
 
 
 const adminSignUp = asyncHandler(async(req,res)=>{
-    const {username, password} = req.body
+    const {Email, Password} = req.body
+    console.log("Creating admin with:", {Email, Password})
 
-    if([username, password].some((field) => field?.trim() === "")) {
+    if([Email, Password].some((field) => field?.trim() === "")) {
         throw new ApiError(400, "All fields are required");
     }
 
-    const existedAdmin = await admin.findOne({ username})
+    const existedAdmin = await admin.findOne({ Email})
+    console.log("Existing admin:", existedAdmin)
 
     if(existedAdmin){
         throw new ApiError(400, "admin already exist")
     }
 
     const newAdmin = await admin.create({
-        username,
-        password,
+        Email,
+        Password,
     })
+    console.log("New admin created:", newAdmin)
 
     if(!newAdmin){
         throw new ApiError(400, "failed to add admin")
@@ -33,8 +36,7 @@ const adminSignUp = asyncHandler(async(req,res)=>{
 
     return res 
     .status(200)
-    .json(new ApiResponse(400,{}, "admin added successfully"))
-
+    .json(new ApiResponse(200, newAdmin, "admin added successfully"))
 })
 
 const generateAccessAndRefreshTokens = async (admindID) =>{ 
@@ -56,20 +58,19 @@ const generateAccessAndRefreshTokens = async (admindID) =>{
 }
 
 const adminLogin = asyncHandler(async(req,res)=>{
+    const {Email, Password} = req.body
 
-    const {username, password} = req.body
-
-    if([username, password].some((field) => field?.trim() === "")) {
+    if([Email, Password].some((field) => field?.trim() === "")) {
         throw new ApiError(400, "All fields are required");
     }
 
-    const loggedAdmin = await admin.findOne({username})
+    const loggedAdmin = await admin.findOne({Email})
 
     if(!loggedAdmin){
         throw new ApiError(400, "admin does not exist")
     }
 
-    const passwordCheck = await loggedAdmin.isPasswordCorrect(password)
+    const passwordCheck = await loggedAdmin.isPasswordCorrect(Password)
 
     if(!passwordCheck){
         throw new ApiError(400, "Password is incorrect")
@@ -79,7 +80,7 @@ const adminLogin = asyncHandler(async(req,res)=>{
 
     const {Accesstoken, Refreshtoken} =  await generateAccessAndRefreshTokens(temp_admin)
 
-    const loggedadmin = await admin.findById(temp_admin).select("-password -Refreshtoken")
+    const loggedadmin = await admin.findById(temp_admin).select("-Password -Refreshtoken")
 
     const options = {
         httpOnly:true,
@@ -119,7 +120,6 @@ const adminLogout = asyncHandler(async(req,res)=>{
 })
 
 const forApproval = asyncHandler(async(req,res)=>{
-
     const adminID = req.params.adminID
 
     if(!adminID){
@@ -132,13 +132,14 @@ const forApproval = asyncHandler(async(req,res)=>{
         throw new ApiError(400, "admin not found")
     }
 
-
     const studentsforApproval = await student.find({
-        Isverified: true
+        Isverified: true,
+        Isapproved: "pending"
     })
 
     const teachersforApproval = await Teacher.find({
-        Isverified: true
+        Isverified: true,
+        Isapproved: "pending"
     })
 
     if(!studentsforApproval && !teachersforApproval){
@@ -149,8 +150,7 @@ const forApproval = asyncHandler(async(req,res)=>{
 
     return res
     .status(200)
-    .json(new ApiResponse(200,{admin:loggedAdmin, studentsforApproval
-    , teachersforApproval}, "fetched successfully"))
+    .json(new ApiResponse(200,{admin:loggedAdmin, studentsforApproval, teachersforApproval}, "fetched successfully"))
 })
 
 const approveStudent = asyncHandler(async(req,res)=>{

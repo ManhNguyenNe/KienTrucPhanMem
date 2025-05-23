@@ -8,7 +8,7 @@ router.route("/signup").post(adminSignUp)
 
 router.route("/login").post(adminLogin)
 
-router.route("/:adminID/approve").post(authAdmin, forApproval)
+router.route("/:adminID/approve").get(authAdmin, forApproval)
 
 router.route("/:adminID/approve/student/:studentID").post(authAdmin, approveStudent)
 

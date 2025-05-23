@@ -27,7 +27,7 @@ const verifyEmail = async (Email, Firstname, createdTeacherId) => {
             <p style="margin: 20px;"> Hi ${Firstname}, Please click the button below to verify your E-mail. </p>
             <img src="https://img.freepik.com/free-vector/illustration-e-mail-protection-concept-e-mail-envelope-with-file-document-attach-file-system-security-approved_1150-41788.jpg?size=626&ext=jpg&uid=R140292450&ga=GA1.1.553867909.1706200225&semt=ais" alt="Verification Image" style="width: 100%; height: auto;">
             <br>
-            <a href="http://localhost:4400/api/teacher/verify?id=${createdTeacherId}">
+            <a href="http://localhost:5000/api/teacher/verify?id=${createdTeacherId}">
                 <button style="background-color: black; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 10px 0; cursor: pointer;">Verify Email</button>
             </a>
         </div>`
@@ -122,6 +122,8 @@ const mailVerified = asyncHandler(async (req, res) => {
 });
 
 const login = asyncHandler(async (req, res) => {
+    console.log("Login request body:", req.body);
+    console.log("Login request user:", req.user);
 
     const Email = req.user.Email
     const Password = req.user.Password
@@ -134,6 +136,7 @@ const login = asyncHandler(async (req, res) => {
     }
 
     const teacher = await Teacher.findOne({ Email });
+    console.log("Found teacher:", teacher);
 
     if (!teacher) {
         throw new ApiError(403, "Teacher does not exist");
@@ -144,14 +147,17 @@ const login = asyncHandler(async (req, res) => {
     }
     
     const isPasswordCorrect = await teacher.isPasswordCorrect(Password);
+    console.log("Password correct:", isPasswordCorrect);
 
     if (!isPasswordCorrect) {
         throw new ApiError(401, "Password is incorrect");
     }
 
     const { Accesstoken, Refreshtoken } = await generateAccessAndRefreshTokens(teacher._id);
+    console.log("Generated tokens:", { Accesstoken, Refreshtoken });
 
     const loggedInTeacher = await Teacher.findById(teacher._id).select("-Password -Refreshtoken");
+    console.log("Logged in teacher:", loggedInTeacher);
 
     const options = {
         httpOnly: true,
@@ -203,7 +209,6 @@ const getTeacher = asyncHandler(async(req,res) =>{
 })
 
 const addTeacherDetails = asyncHandler(async(req,res)=>{
-
     const id = req.params.id
     if(req.teacher._id != id){
         throw new ApiError(400, "unauthroized access")
@@ -221,40 +226,7 @@ const addTeacherDetails = asyncHandler(async(req,res)=>{
         throw new ApiError(400, "Phone number already exist")
     }
 
-    const AadhaarLocalPath = req.files?.Aadhaar?.[0]?.path;
-
-    const SecondaryLocalPath = req.files?.Secondary?.[0]?.path;
-
-    const HigherLocalPath = req.files?.Higher?.[0]?.path
-
-    const UGLocalPath = req.files?.UG?.[0]?.path
-
-    const PGLocalPath = req.files?.PG?.[0]?.path
-
-
-    if(!AadhaarLocalPath){
-        throw new ApiError(400, "Aadhaar is required")
-    }
-    if(!SecondaryLocalPath){
-        throw new ApiError(400, "Secondary marksheet is required")
-    }
-    if(!HigherLocalPath){
-        throw new ApiError(400, "Higher marksheet is required")
-    }
-    if(!UGLocalPath){
-        throw new ApiError(400, "UG marksheet is required")
-    }
-    if(!PGLocalPath){
-        throw new ApiError(400, "PG marksheet is required")
-    }
-
-
-    const Aadhaar = await uploadOnCloudinary(AadhaarLocalPath)
-    const Secondary = await uploadOnCloudinary(SecondaryLocalPath)
-    const Higher = await uploadOnCloudinary(HigherLocalPath)
-    const UG = await uploadOnCloudinary(UGLocalPath)
-    const PG = await uploadOnCloudinary(PGLocalPath)
-
+    // Tạo teacherdetails với URL mặc định cho các file
     const teacherdetails = await Teacherdocs.create({
         Phone,
         Address,
@@ -267,23 +239,26 @@ const addTeacherDetails = asyncHandler(async(req,res)=>{
         HigherMarks,
         UGmarks,
         PGmarks,
-        Aadhaar: Aadhaar.url,
-        Secondary: Secondary.url,
-        Higher: Higher.url,
-        UG:UG.url,
-        PG:PG.url,
+        Aadhaar: "https://example.com/default-aadhaar.jpg",
+        Secondary: "https://example.com/default-secondary.jpg",
+        Higher: "https://example.com/default-higher.jpg",
+        UG: "https://example.com/default-ug.jpg",
+        PG: "https://example.com/default-pg.jpg"
     })
 
-    const theTeacher = await Teacher.findOneAndUpdate({_id: id}, {$set: {Isapproved:"pending", Teacherdetails: teacherdetails._id}},  { new: true }).select("-Password -Refreshtoken")
+    const theTeacher = await Teacher.findOneAndUpdate(
+        {_id: id}, 
+        {$set: {Isapproved:"pending", Teacherdetails: teacherdetails._id}},  
+        { new: true }
+    ).select("-Password -Refreshtoken")
     
     if(!theTeacher){
-        throw new ApiError(400,"faild to approve or reject || student not found")
+        throw new ApiError(400,"failed to approve or reject || student not found")
     }
 
     return res
     .status(200)
     .json(new ApiResponse(200, {teacher:theTeacher}, "documents uploaded successfully"))
-
 })
 
 const teacherdocuments = asyncHandler(async(req, res)=>{
@@ -389,4 +364,35 @@ const ForgetPassword=asyncHandler(async(req,res)=>{
      }
  });
 
-export { signup, mailVerified, login, logout, addTeacherDetails, getTeacher, teacherdocuments,ForgetPassword,ResetPassword};
+const resendVerificationEmail = asyncHandler(async (req, res) => {
+    const { Email } = req.body;
+
+    if (!Email) {
+        throw new ApiError(400, "Email is required");
+    }
+
+    // Tìm và cập nhật dữ liệu giáo viên
+    const teacher = await Teacher.findOne({ Email: { $regex: new RegExp(`^${Email}`) } });
+    
+    if (!teacher) {
+        throw new ApiError(404, "Teacher not found");
+    }
+
+    // Sửa dữ liệu
+    teacher.Email = teacher.Email.replace(/\/$/, ''); // Xóa dấu / ở cuối
+    teacher.Firstname = teacher.Firstname.replace(/\/$/, ''); // Xóa dấu / ở cuối
+    teacher.Lastname = teacher.Lastname.replace(/,+$/, ''); // Xóa dấu phẩy ở cuối
+    teacher.Password = teacher.Password.replace(/,+$/, ''); // Xóa dấu phẩy ở cuối
+    teacher.Isapproved = teacher.Isapproved.replace(/,+$/, ''); // Xóa dấu phẩy ở cuối
+
+    await teacher.save();
+
+    // Gửi lại email xác thực
+    await verifyEmail(teacher.Email, teacher.Firstname, teacher._id);
+
+    return res.status(200).json(
+        new ApiResponse(200, {}, "Verification email resent successfully")
+    );
+});
+
+export { signup, mailVerified, login, logout, addTeacherDetails, getTeacher, teacherdocuments,ForgetPassword,ResetPassword, resendVerificationEmail};

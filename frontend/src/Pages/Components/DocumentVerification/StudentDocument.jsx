@@ -44,17 +44,7 @@ const StudentDocument = () => {
     HigherSchool: data.HigherSchool || "",
     SecondaryMarks: data.SecondaryMarks || "",
     HigherMarks: data.HigherMarks || "",
-    Aadhaar: null,
-    Secondary: null,
-    Higher: null,
   });
-
-  const handleFileChange = (fileType, e) => {
-    setFormData({
-      ...formData,
-      [fileType]: e.target.files[0],
-    });
-  };
 
   const handleInputChange = (field, value) => {
     setFormData({
@@ -67,16 +57,13 @@ const StudentDocument = () => {
     e.preventDefault();
     setLoader(true);
 
-    const formDataObj = new FormData();
-
-    Object.keys(formData).forEach((key) => {
-      formDataObj.append(key, formData[key]);
-    });
-
     try {
       const response = await fetch(`/api/student/verification/${Data}`, {
         method: "POST",
-        body: formDataObj,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
 
       const responseData = await response.json();
@@ -109,7 +96,7 @@ const StudentDocument = () => {
             wrapperStyle={{}}
             wrapperClass=""
           />{" "}
-          <span className="text-white text-xl ml-1">Uploading ...</span>
+          <span className="text-white text-xl ml-1">Submitting ...</span>
         </div>
       )}
       <div className="flex items-center gap-[20rem] px-32 py-2 bg-[#0D286F]">
@@ -158,12 +145,6 @@ const StudentDocument = () => {
               handleInputChange("Highesteducation", e.target.value)
             }
           />
-          <InputUpload
-            label={"Upload Aadhar Card"}
-            placeholder={"Upload Aadhar Card"}
-            value={formData.Aadhaar}
-            onChange={(e) => handleFileChange("Aadhaar", e)}
-          />
         </div>
 
         <p className="text-[#4E84C1] p-5 px-10 pt-10">
@@ -188,18 +169,11 @@ const StudentDocument = () => {
                 handleInputChange("SecondaryMarks", e.target.value)
               }
             />
-            <div className=" mt-[-1.5rem]">
-              <InputUpload
-                placeholder={"Upload 10th Result"}
-                value={formData.Secondary}
-                onChange={(e) => handleFileChange("Secondary", e)}
-              />
-            </div>
           </div>
           <hr />
           <div className="flex flex-row gap-7">
             <div className=" bg-[#0D286F] p-[1rem] m-3 rounded-sm">
-              <p className=" text-white text-sm">Higher Secondary</p>
+              <p className=" text-white text-sm">Higher</p>
             </div>
             <Input
               placeholder={"12th Board Name"}
@@ -211,21 +185,18 @@ const StudentDocument = () => {
             <Input
               placeholder={"Total Marks (%)"}
               value={formData.HigherMarks}
-              onChange={(e) => handleInputChange("HigherMarks", e.target.value)}
+              onChange={(e) =>
+                handleInputChange("HigherMarks", e.target.value)
+              }
             />
-            <div className=" mt-[-1.5rem]">
-              <InputUpload
-                placeholder={"Upload 12th Result"}
-                value={formData.Higher}
-                onChange={(e) => handleFileChange("Higher", e)}
-              />
-            </div>
           </div>
         </div>
-        {error && <p className="text-white text-xl m-5 text-center">!! {error}</p>}
-        <div className=" bg-[#0D286F] p-3 m-3 mt-1 rounded-md absolute right-32 bottom-5 cursor-pointer">
-          <button className=" text-white text-sm" type="Submit">
-            Submit ▶️
+        <div className="flex justify-center mt-10 mb-10">
+          <button
+            type="submit"
+            className="bg-[#0D286F] text-white px-10 py-2 rounded-md"
+          >
+            Submit
           </button>
         </div>
       </form>

@@ -87,111 +87,77 @@ function Search() {
     setData("");
   };
 
-  const handleEnroll = async (courseName, id) => {
-    let check = await fetch(
-      `/api/course/${courseName}/${id}/verify/student/${ID}`,
-      {
-        method: "POST",
+  const updateEnrolledCourses = async () => {
+    try {
+      const response = await fetch(`/api/course/student/${ID}/enrolled`, {
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        // body: JSON.stringify({}),
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
       }
-    );
-    const res = await check.json();
 
-    console.log(res);
+      const user = await response.json();
+      setCourseID(user.data);
+      setIdArray(user.data.map(res => res._id));
+      console.log("Updated enrolled courses:", user.data);
+    } catch (error) {
+      console.error("Error updating enrolled courses:", error);
+    }
+  };
 
-    if(res.statusCode === 200){
+  const handleEnroll = async (courseName, id) => {
+    try {
+      console.log("Starting enrollment process for course:", courseName, id);
+      
+      // Kiểm tra điều kiện đăng ký
+      let check = await fetch(
+        `/api/course/${courseName}/${id}/verify/student/${ID}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: 'include'
+        }
+      );
+      const verifyRes = await check.json();
+      console.log("Verification response:", verifyRes);
 
-    const data = await fetch(`/api/payment/course/${id}/${courseName}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ fees: price[courseName]*100 }),
-    });
-
-    const DATA = await data.json();
-    // console.log(DATA.data.id)
-
-    const Key = await fetch("/api/payment/razorkey", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const response = await Key.json();
-
-    const options = {
-      key: response.data.key,
-      amount: price[courseName]*100,
-      currency: "INR",
-      name: "Shiksharthee",
-      description: "Enroll in a course",
-      image: logo,
-      order_id: DATA.data.id, // Include the order_id from the response
-      handler: async (response) => {
-        const { razorpay_payment_id, razorpay_order_id, razorpay_signature } =
-          response;
-
-        // Send the payment details to the server for verification
-        const verificationData = {
-          razorpay_payment_id,
-          razorpay_order_id,
-          razorpay_signature,
-        };
-
-        const verificationResponse = await fetch(
-          `/api/payment/confirmation/course/${id}`,
+      if (verifyRes.statusCode === 200) {
+        // Đăng ký khóa học trực tiếp
+        const enrollResponse = await fetch(
+          `/api/course/${courseName}/${id}/add/student/${ID}`,
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(verificationData),
+            credentials: 'include'
           }
         );
 
-        const res = await verificationResponse.json();
-        console.log(res.statusCode);
-        if (res.statusCode === 200) {
-          try {
-            let response = await fetch(
-              `/api/course/${courseName}/${id}/add/student/${ID}`,
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                // body: JSON.stringify({}),
-              }
-            );
-
-            let res = await response.json();
-            console.log(res);
-            setPopup(true);
-          } catch (error) {
-            console.log(error);
-          }
+        const enrollRes = await enrollResponse.json();
+        console.log("Enrollment response:", enrollRes);
+        
+        if (enrollRes.statusCode === 200) {
+          // Cập nhật danh sách khóa học đã đăng ký
+          await updateEnrolledCourses();
+          setPopup(true);
+          alert("Đăng ký khóa học thành công!");
+        } else {
+          alert(enrollRes.message || "Đăng ký khóa học thất bại");
         }
-      },
-      prefill: {
-        name: "Gaurav Kumar",
-        email: "gaurav.kumar@example.com",
-      },
-      notes: {
-        address: "Razorpay Corporate Office",
-      },
-      theme: {
-        color: "#3399cc",
-      },
-    };
-
-    const rzp1 = new window.Razorpay(options);
-    rzp1.open();
-    }else{
-      alert(res.message)
+      } else {
+        alert(verifyRes.message || "Không thể đăng ký khóa học này");
+      }
+    } catch (error) {
+      console.error("Error in handleEnroll:", error);
+      alert("Có lỗi xảy ra. Vui lòng thử lại sau.");
     }
   };
 

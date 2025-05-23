@@ -1,7 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import {instance}  from "../app.js"
+// import {instance}  from "../app.js"
 import crypto from "crypto"
 import {payment} from "../models/payment.model.js"
 import { Teacher } from "../models/teacher.model.js";
@@ -14,16 +14,21 @@ const coursePayment = asyncHandler(async(req,res)=>{
       throw new ApiError(400,"fees is required")
     }
 
-    const options = {
-        amount: fees,  // amount in the smallest currency unit
-        currency: "INR",
-        receipt: "order_rcptid_11"
-      };
-      const order = await instance.orders.create(options)
+    // const options = {
+    //     amount: fees,  // amount in the smallest currency unit
+    //     currency: "INR",
+    //     receipt: "order_rcptid_11"
+    //   };
+    //   const order = await instance.orders.create(options)
 
-      return res
-      .status(200)
-      .json( new ApiResponse(200, order,"order fetched"))
+    //   return res
+    //   .status(200)
+    //   .json( new ApiResponse(200, order,"order fetched"))
+
+    // Trả về mock data hoặc thông báo rằng thanh toán đang bị tạm ẩn
+    return res.status(200).json(
+        new ApiResponse(200, { mock: true, fees }, "Razorpay is currently disabled")
+    );
 })
 
 

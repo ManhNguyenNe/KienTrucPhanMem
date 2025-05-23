@@ -271,7 +271,7 @@ const enrolledcourseTeacher = asyncHandler(async(req,res)=>{
     throw new ApiError(400, "params and logged teacher id doesnt match")
   }
 
-  const teacher = await course.find({ enrolledteacher: teacherID }).select( "-enrolledStudent -liveClasses -enrolledteacher")
+  const teacher = await course.find({ enrolledteacher: teacherID }).select("-enrolledStudent -enrolledteacher")
 
   if (!teacher) {
       throw new ApiError(404, "teacher not found");
@@ -409,47 +409,25 @@ const stdEnrolledCoursesClasses = asyncHandler(async(req,res)=>{
 })
 
 const teacherEnrolledCoursesClasses = asyncHandler(async(req,res)=>{
-  const teacher = req.teacher
+  const teacherID = req.params.id
 
-  const classes = await course.aggregate([
-    {
-      $match: {
-        enrolledteacher: teacher._id
-      }
-    },
-    {
-      $unwind: "$liveClasses"
-    },
-    {
-      $sort: {
-        "liveClasses.date": 1,
-        "liveClasses.timing": 1
-      }
-    },
-    {
-      $group: {
-        _id: "classes",
-        liveClasses: { 
-          $push: {
-            coursename: "$coursename",
-            title: "$liveClasses.title",
-            timing: "$liveClasses.timing",
-            link: "$liveClasses.link",
-            status: "$liveClasses.status",
-            date: "$liveClasses.date"
-          }
-        }
-      }
-    }
-  ]);
+  if(!teacherID){
+    throw new ApiError(400, "authorization failed")
+  }
 
-  if(!classes){
-   throw new ApiError(400, "couldn't fetch the classes")
+  if(teacherID != req.teacher._id){
+    throw new ApiError(400, "params and logged teacher id doesnt match")
+  }
+
+  const teacher = await course.find({ enrolledteacher: teacherID }).select("-enrolledStudent -enrolledteacher")
+
+  if (!teacher) {
+      throw new ApiError(404, "teacher not found");
   }
 
   return res
   .status(200)
-  .json(new ApiResponse(200, {teacher, classes}, "fetched classes successfully"))
+  .json( new ApiResponse(200,teacher, "teacher and enrolled course"))
 })
 
 

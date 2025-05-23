@@ -75,7 +75,7 @@ const Admin = () => {
     const getData = async () => {
       try {
         const response = await fetch(`/api/admin/${data}/approve`, {
-          method: "POST",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },

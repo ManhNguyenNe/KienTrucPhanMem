@@ -179,6 +179,10 @@ export default function Login() {
               Forget Password?
             </div>
 
+            <div className="text-yellow-400 text-semibold pt-3 cursor-pointer" onClick={()=>navigate('/adminLogin')} >
+              Admin Login
+            </div>
+
             {/* btns */}
             <div className="btns">
               <button type="submit" className="btns-1">

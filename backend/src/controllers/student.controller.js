@@ -37,7 +37,7 @@ const verifyEmail = async (Email, Firstname, createdStudent_id) => {
                 <p style="margin: 20px;"> Hi ${Firstname}, Please click the button below to verify your E-mail. </p>
                 <img src="https://img.freepik.com/free-vector/illustration-e-mail-protection-concept-e-mail-envelope-with-file-document-attach-file-system-security-approved_1150-41788.jpg?size=626&ext=jpg&uid=R140292450&ga=GA1.1.553867909.1706200225&semt=ais" alt="Verification Image" style="width: 100%; height: auto;">
                 <br>
-                <a href="http://localhost:4400/api/student/verify?id=${createdStudent_id}">
+                <a href="http://localhost:5000/api/student/verify?id=${createdStudent_id}">
                     <button style="background-color: black; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 10px 0; cursor: pointer;">Verify Email</button>
                 </a>
             </div>`
@@ -254,29 +254,7 @@ const addStudentDetails = asyncHandler(async(req, res)=>{
         throw new ApiError(400, "phone number already exists")
     }
 
-    const AadhaarLocalPath = req.files?.Aadhaar?.[0]?.path;
-
-    const SecondaryLocalPath = req.files?.Secondary?.[0]?.path;
-
-    const HigherLocalPath = req.files?.Higher?.[0]?.path
-
-    if(!AadhaarLocalPath){
-        throw new ApiError(400, "Aadhaar is required")
-    }
-
-    if(!SecondaryLocalPath){
-        throw new ApiError(400, "Secondary marksheet is required")
-    }
-
-    if(!HigherLocalPath){
-        throw new ApiError(400, "Higher marksheet is required")
-    }
-
-    const Aadhaar = await uploadOnCloudinary(AadhaarLocalPath)
-    const Secondary = await uploadOnCloudinary(SecondaryLocalPath)
-
-    const Higher = await uploadOnCloudinary(HigherLocalPath)
-
+    // Tạo studentdetails với URL mặc định cho các tài liệu
     const studentdetails = await studentdocs.create({
         Phone,
         Address,
@@ -285,16 +263,16 @@ const addStudentDetails = asyncHandler(async(req, res)=>{
         HigherSchool,
         SecondaryMarks,
         HigherMarks,
-        Aadhaar: Aadhaar.url,
-        Secondary: Secondary.url,
-        Higher: Higher.url,
+        Aadhaar: "default_url",
+        Secondary: "default_url",
+        Higher: "default_url",
     })
 
-
-    //const loggedstd = await student.findByIdAndUpdate(id, {})
-
-    const theStudent = await student.findOneAndUpdate({_id: id}, {$set: {Isapproved:"pending", Studentdetails: studentdetails._id}},  { new: true }).select("-Password -Refreshtoken")
-    
+    const theStudent = await student.findOneAndUpdate(
+        {_id: id}, 
+        {$set: {Isapproved:"pending", Studentdetails: studentdetails._id}},  
+        { new: true }
+    ).select("-Password -Refreshtoken")
     
     if(!theStudent){
         throw new ApiError(400,"faild to approve or reject || student not found")
@@ -303,7 +281,6 @@ const addStudentDetails = asyncHandler(async(req, res)=>{
     return res
     .status(200)
     .json(new ApiResponse(200, theStudent, "documents uploaded successfully"))
-
 })
 
 

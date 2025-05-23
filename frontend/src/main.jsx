@@ -8,6 +8,7 @@ import Courses from './Pages/Home/Courses/Courses'
 import Login from './Pages/Login/Login'
 import Signup from './Pages/Signup/Signup'
 import AdminLogin from './Pages/Login/AdminLogin'
+import AdminDashboard from './Pages/Admin/AdminDashboard'
 
 import { RouterProvider, Route, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import Layout from './Layout'
@@ -50,7 +51,7 @@ const router = createBrowserRouter(
       <Route path='/contact' element={<Contact/>}/>
       <Route path='/about' element={<About/>}/>
       <Route path='/varifyEmail' element={<VarifyEmail/>}/>
-      <Route path='/adminLogin/' element={<AdminLogin/>}/>
+      <Route path='/adminLogin' element={<AdminLogin/>}/>
       <Route path='/rejected/:user/:ID' element={<Rejected/>}/>
       <Route path='/pending' element={<Pending/>}/>
       <Route path='/admin/:data' element={<Admin/>}/>
