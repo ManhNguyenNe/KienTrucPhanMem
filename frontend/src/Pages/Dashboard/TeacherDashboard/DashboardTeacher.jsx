@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Withdrawal from "./Withdrawal";
 import { TbMessage2Star } from "react-icons/tb";
 
 function DashboardTeacher() {
@@ -8,9 +7,7 @@ function DashboardTeacher() {
   const [data, setdata] = useState([]);
   const [courses, setCourses] = useState([]);
   const [error, setError] = useState([]);
-  const [popup, setPopup] = useState(false);
   const [notification, setNotification] = useState(false);
-  const [amount, setAmount] = useState(0);
   const [subjectForm, setsubjectForm] = useState('Math');
   const [Tdec, setTeacherDetails] = useState(null);
   const [starCount, setStar] = useState(5);
@@ -43,7 +40,6 @@ function DashboardTeacher() {
 
         const user = await response.json();
         setdata(user.data);
-        // console.log(user.data);
       } catch (error) {
         setError(error.message);
       }
@@ -62,37 +58,11 @@ function DashboardTeacher() {
         body: JSON.stringify({teacherID : data.Teacherdetails}),
       })
       const res = await Data.json();
-      // console.log(res.data);
       setTeacherDetails(res.data);
     }
 
     getData();
   },[courses])
-
-  useEffect(() => {
-    const getAmount = async () => {
-      try {
-        const response = await fetch(`/api/payment/teacher/${ID}/balance`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-
-        const user = await response.json();
-        setAmount(user.data.newTeacher.Balance);
-        // console.log(user)
-      } catch (error) {
-        // setError(error.message)
-        console.log(error);
-      }
-    };
-    getAmount();
-  }, [amount, popup]);
 
   useEffect(() => {
     const getCourses = async () => {
@@ -122,26 +92,17 @@ function DashboardTeacher() {
     <>
       <div className="m-5 ml-60 text-white flex flex-col gap-7">
         <div className="text-[1.1rem] w-[30rem] flex gap-60 items-center">
-          {/* <p>Amount: <span className=" text-green-500">Rs. {amount}</span></p> */}
           <div className="bg-[#1671D8] p-3 rounded-md cursor-pointer">
             Details
           </div>
-          <div
-            // onClick={() => setPopup(true)}
-            className="bg-[#1671D8] p-3 rounded-md cursor-pointer"
-          >
+          <div className="bg-[#1671D8] p-3 rounded-md cursor-pointer">
             Remuneration
           </div>
-          {/* <div className="flex items-center gap-2 ml-28 bg-[#1671D8] p-3 rounded-md cursor-pointer" onClick={()=>setNotification(prev => !prev)}>
-            <span>Notifications</span>
-            <TbMessage2Star />
-          </div> */}
         </div>
         <hr />
         <div className="flex gap-32">
           <div className="flex flex-col gap-5">
             <p>Name: <span className="text-black">{data.Firstname} {data.Lastname}</span></p>
-            {/* <p>Name: {data.Firstname} {data.Lastname} {'⭐'.repeat(starCount)}</p> */}
             <p>Email: <span className="text-black">{data.Email}</span></p>
             <p>Phone: <span className="text-black">{Tdec?.Phone}</span></p>
             <p>Address: <span className="text-black">{Tdec?.Address}</span></p>
@@ -155,7 +116,6 @@ function DashboardTeacher() {
                 .map((course) => (
                   <p
                     key={course._id}
-                    // className=" bg-[#1671D8] py-1 px-2 rounded-xl w-fit"
                     className="py-1 px-2 rounded-xl w-fit"
                   >
                     {course.coursename} :{" "}
@@ -170,27 +130,11 @@ function DashboardTeacher() {
                 ))}
             </div>
           </div>
-          <div className="ml-28">
-            {/* {notification && (
-              show all notifications
-              example
-              <div>
-                <p>course : Math</p>
-                <p>Timing : sun,Mon,tue</p>
-                <p>status : pending</p>
-                <p>message : sbcxbbdjbd</p>
-              </div>
-            )} */}
-          </div>
         </div>
-
-        {popup && <Withdrawal onClose={() => setPopup(false)} TA={amount} />}
         
         {formPopup && (
           <div className='fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex items-center justify-center'>
             <div className='bg-[#5be0de] text-black w-[70vw] px-14 py-10 rounded-sm'>
-              {/* <div className=' absolute w-9 h-9 bg-white rounded-xl cursor-pointer flex items-center justify-center m-2' onClick={onClose}>✖️</div> */}
-
               <p className='text-3xl'>Teacher Feedback Form</p>
               <p className=' border-b-2 py-2'>We highly appreciate your involvement. Please help us improve by filling out this teacher feedback form. Thank you!</p>
 
@@ -200,7 +144,6 @@ function DashboardTeacher() {
                 <label>Course Name</label>
 
                 <input type="text" className='p-2'  placeholder='Course Name'/>
-                {/* <input type="text" value={subjectForm} readOnly className='p-2'  placeholder='Course Name'/> */}
 
                 <label>Number of Years Teaching ?</label>
                 <input type="text" className='p-2'  placeholder='in years'/>

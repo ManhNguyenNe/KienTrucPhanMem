@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import "./Search.css";
 import { useParams } from "react-router-dom";
 import logo from "../../Images/logo.svg";
-import Success from "./Success";
 
 function Search() {
   const [data, setData] = useState("");
   const [course, setCourse] = useState([]);
   const [courseID, setCourseID] = useState([]);
-  const [popup, setPopup] = useState(false);
   const [idArray, setIdArray] = useState([]);
   const { ID } = useParams();
   const [openTM, setOpenTM] = useState(false);
@@ -24,11 +22,6 @@ function Search() {
   };
 
   const daysName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-  const closePopup = () => {
-    setPopup(false);
-    window.location.reload();
-  };
 
   const openTeacherDec = async(id,fname,lname,sub)=>{
     setTname({fname,lname,sub});
@@ -66,8 +59,6 @@ function Search() {
         setCourseID(user.data);
         console.log(user.data);
         setIdArray(prevIdArray => [...prevIdArray, ...user.data.map(res => res._id)]);
-        // Using a callback in setIdArray to ensure you're working with the most up-to-date state
-  
       } catch (error) {
         console.log(error.message)
       }
@@ -82,7 +73,6 @@ function Search() {
     const response = await Data.json();
     if (response.statusCode === 200) {
       setCourse(response.data);
-      // console.log(response.data);
     }
     setData("");
   };
@@ -114,7 +104,6 @@ function Search() {
     try {
       console.log("Starting enrollment process for course:", courseName, id);
       
-      // Kiểm tra điều kiện đăng ký
       let check = await fetch(
         `/api/course/${courseName}/${id}/verify/student/${ID}`,
         {
@@ -129,7 +118,6 @@ function Search() {
       console.log("Verification response:", verifyRes);
 
       if (verifyRes.statusCode === 200) {
-        // Đăng ký khóa học trực tiếp
         const enrollResponse = await fetch(
           `/api/course/${courseName}/${id}/add/student/${ID}`,
           {
@@ -145,9 +133,7 @@ function Search() {
         console.log("Enrollment response:", enrollRes);
         
         if (enrollRes.statusCode === 200) {
-          // Cập nhật danh sách khóa học đã đăng ký
           await updateEnrolledCourses();
-          setPopup(true);
           alert("Đăng ký khóa học thành công!");
         } else {
           alert(enrollRes.message || "Đăng ký khóa học thất bại");
@@ -233,18 +219,13 @@ function Search() {
                   <div className='flex flex-col justify-center p-5 text-1xl gap-4'>
                   <p className='text-center text-2xl bg-blue-900 rounded-sm py-1 text-white mb-5'>{tname.sub.toUpperCase()}</p>
                   <p>Teacher Name : <span className='text-white'>{tname.fname} {tname.lname}</span></p>
-                  {/* <p>Teacher Name : <span className='text-white'>{tname.fname} {tname.lname}</span> ⭐⭐⭐</p> */}
                   <p>Education : <span className='text-white'>Postgraduate from <b className='text-gray-200'>{Tdec.PGcollege}</b> with {Tdec.PGmarks} CGPA</span></p>
                   <p>Experience : <span className='text-white'>{Tdec.Experience} years</span></p>
                   <p>Course : <span className='text-white'>{tname.sub.toUpperCase()}</span></p>
-                  {/* <p>Course Duration : <span className='text-white'>6 Months</span></p> */}
-                  {/* <p>Fees : <span className='text-white'>Rs. {price[tname.sub]}</span></p> */}
                   </div>
               </div>
           </div>
       )}
-
-      {popup && <Success onClose={closePopup} />}
     </>
   );
 }
