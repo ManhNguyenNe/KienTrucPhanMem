@@ -19,22 +19,32 @@ app.use(cookieParser())
 // })
 
 //student routes
-import studentRouter from "./routes/student.routes.js";
+// import studentRouter from "./routes/student.routes.js";
+// app.use("/api/student", studentRouter)
+
+import studentRouter from "./student.module/student.route.js";
 app.use("/api/student", studentRouter)
 
-
 //teacher routes
-import teacherRouter from "./routes/teacher.routes.js"
+// import teacherRouter from "./routes/teacher.routes.js"
+// app.use("/api/teacher", teacherRouter)
+
+import teacherRouter from "./teacher.module/teacher.route.js"
 app.use("/api/teacher", teacherRouter)
 
 //course routes
-import courseRouter from "./routes/course.routes.js"
+import courseRouter from "./course.module/course.route.js"
 app.use("/api/course", courseRouter)
 
-import adminRouter from "./routes/admin.routes.js"
+// import adminRouter from "./routes/admin.routes.js"
+// app.use("/api/admin", adminRouter)
+
+import adminRouter from "./admin.module/admin.route.js"
 app.use("/api/admin", adminRouter)
 
-import paymentRouter from "./routes/payment.routes.js"
+// import paymentRouter from "./routes/payment.routes.js"
+import paymentRouter from "./payment.module/payment.route.js"
+
 app.use("/api/payment", paymentRouter)
 
 

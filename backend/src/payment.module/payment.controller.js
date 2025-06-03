@@ -3,8 +3,8 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 // import {instance}  from "../app.js"
 import crypto from "crypto"
-import {payment} from "../models/payment.model.js"
-import { Teacher } from "../models/teacher.model.js";
+import {payment} from "./payment.model.js"
+import { Teacher } from "../teacher.module/teacher.model.js";
 
 
 const coursePayment = asyncHandler(async(req,res)=>{

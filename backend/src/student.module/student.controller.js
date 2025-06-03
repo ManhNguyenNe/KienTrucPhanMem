@@ -1,10 +1,10 @@
 import {asyncHandler} from "../utils/asyncHandler.js";
 import {ApiError} from "../utils/ApiError.js";
-import {student, studentdocs} from "../models/student.model.js";
+import {student, studentdocs} from "./student.model.js";
 import {ApiResponse} from "../utils/ApiResponse.js";
 import nodemailer from "nodemailer";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
-import { Teacher } from "../models/teacher.model.js";
+import { Teacher } from "../teacher.module/teacher.model.js";
 import { Sendmail } from "../utils/Nodemailer.js";
 
 

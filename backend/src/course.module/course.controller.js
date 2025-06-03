@@ -1,8 +1,8 @@
-import {course} from "../models/course.model.js";
+import {course} from "./course.model.js";
 import {asyncHandler} from "../utils/asyncHandler.js";
 import {ApiError} from "../utils/ApiError.js"; 
 import {ApiResponse} from "../utils/ApiResponse.js";
-import { Teacher } from "../models/teacher.model.js";
+import { Teacher } from "../teacher.module/teacher.model.js";
 import {Sendmail} from "../utils/Nodemailer.js"
 
 

@@ -1,11 +1,11 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import { admin } from "../models/admin.model.js";
-import { student, studentdocs } from "../models/student.model.js";
-import { Teacher, Teacherdocs } from "../models/teacher.model.js";
+import { admin } from "./admin.model.js";
+import { student, studentdocs } from "../student.module/student.model.js";
+import { Teacher, Teacherdocs } from "../teacher.module/teacher.model.js";
 import { contact } from "../models/contact.model.js";
-import { course } from "../models/course.model.js";
+import { course } from "../course.module/course.model.js";
 import {Sendmail} from "../utils/Nodemailer.js"
 
 

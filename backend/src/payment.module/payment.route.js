@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authSTD } from "../middlewares/stdAuth.middleware.js";
-import { coursePayment, coursePaymentConfirmation, getkey, teacherAmount, withdrawAmount } from "../controllers/payment.controller.js";
+import { coursePayment, coursePaymentConfirmation, getkey, teacherAmount, withdrawAmount } from "./payment.controller.js";
 import { authTeacher } from "../middlewares/teacherAuth.middleware.js";
 
 

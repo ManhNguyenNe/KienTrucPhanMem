@@ -1,6 +1,7 @@
 import {asyncHandler} from "../utils/asyncHandler.js";
 import {ApiError} from "../utils/ApiError.js";
-import {student} from "../models/student.model.js";
+// import {student} from "../models/student.model.js";
+import { student } from "../student.module/student.model.js";
 import jwt from "jsonwebtoken";
 
 const authSTD = asyncHandler(async(req,_,next) =>{
