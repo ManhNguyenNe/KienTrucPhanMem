@@ -29,7 +29,8 @@ const Course = () => {
 
 
   const formatDay = (day) => {
-    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    // const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const daysOfWeek = ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"];
     return daysOfWeek[day];
   };
 
@@ -189,31 +190,31 @@ const Course = () => {
                 <h2 className="text-lg text-yellow-500 font-bold">{req.coursename.toUpperCase()}</h2>
                 <p className="text-yellow-700 font-semibold">{req.description}</p>
                 <div className="flex items-center mt-2">
-                  <p className="text-yellow-300">Enrolled Teacher : </p>
+                  <p className="text-yellow-300">Giáo viên đăng kí : </p>
                   <p className="text-white font-semibold pl-1"> {req.enrolledteacher.Firstname}  {req.enrolledteacher.Lastname}</p>
                  
                 </div>
                 <div className="flex  flex-col justify-start mt-2">
-                  <p className="text-gray-400 text-xl font-bold mr-2">Timing:</p>
+                  <p className="text-gray-400 text-xl font-bold mr-2">Thời gian:</p>
                   <div className="text-white">
                     {req.schedule.map((scheduleItem, idx) => (
                       <div key={idx}>
-                        <p className="text-yellow-800">Day: {formatDay(scheduleItem.day)}</p>
-                        <p className="text-yellow-300">Start Time: {formatTime(scheduleItem.starttime)}</p>
-                        <p className="text-yellow-300">End Time: {formatTime(scheduleItem.endtime)}</p>
+                        <p className="text-yellow-800">Thứ trong tuần: {formatDay(scheduleItem.day)}</p>
+                        <p className="text-yellow-300">Giờ bắt đầu: {formatTime(scheduleItem.starttime)}</p>
+                        <p className="text-yellow-300">Giờ kết thúc: {formatTime(scheduleItem.endtime)}</p>
                       </div>
                     ))}
                   </div>
                 </div>
                 <div className="flex items-center mt-2">
-                  <p className="text-yellow-300 mr-2">Approval Status:</p>
+                  <p className="text-yellow-300 mr-2">Trạng thái:</p>
                   <p className={`text-white ${req.isapproved ? 'text-green-500' : 'text-red-500'}`}>
-                    {req.isapproved ? 'Approved' : 'Pending'}
+                    {req.isapproved ? 'Đã chấp nhận' : 'Đang chờ'}
                   </p>
                 </div>
                 <div className='flex flex-row gap-3 mt-2'>
-                  <button className='text-white bg-green-500'onClick={()=>handleAccept(req._id,{Email:req.enrolledteacher.Email,enrolledteacher:req.enrolledteacher.Firstname})}>Approve</button>
-                  <button className='text-white bg-red-500' onClick={()=>handleReject(req._id,{Email:req.enrolledteacher.Email,enrolledteacher:req.enrolledteacher.Firstname})}>Reject</button>
+                  <button className='text-white bg-green-500'onClick={()=>handleAccept(req._id,{Email:req.enrolledteacher.Email,enrolledteacher:req.enrolledteacher.Firstname})}>Chấp nhận</button>
+                  <button className='text-white bg-red-500' onClick={()=>handleReject(req._id,{Email:req.enrolledteacher.Email,enrolledteacher:req.enrolledteacher.Firstname})}>Từ chối</button>
                 </div>
               </div>
             ))}

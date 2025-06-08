@@ -22,7 +22,8 @@ function DashboardTeacher() {
     biology: 500,
   };
 
-  const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  // const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const daysOfWeek = ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"];
 
   useEffect(() => {
     const getData = async () => {
@@ -92,25 +93,19 @@ function DashboardTeacher() {
     <>
       <div className="m-5 ml-60 text-white flex flex-col gap-7">
         <div className="text-[1.1rem] w-[30rem] flex gap-60 items-center">
-          <div className="bg-[#1671D8] p-3 rounded-md cursor-pointer">
-            Details
-          </div>
-          <div className="bg-[#1671D8] p-3 rounded-md cursor-pointer">
-            Remuneration
-          </div>
         </div>
         <hr />
         <div className="flex gap-32">
           <div className="flex flex-col gap-5">
-            <p>Name: <span className="text-black">{data.Firstname} {data.Lastname}</span></p>
+            <p>Họ tên: <span className="text-black">{data.Firstname} {data.Lastname}</span></p>
             <p>Email: <span className="text-black">{data.Email}</span></p>
-            <p>Phone: <span className="text-black">{Tdec?.Phone}</span></p>
-            <p>Address: <span className="text-black">{Tdec?.Address}</span></p>
-            <p>Experience: <span className="text-black">{Tdec?.Experience} years</span></p>
+            <p>Số điện thoại: <span className="text-black">{Tdec?.Phone}</span></p>
+            <p>Địa chỉ: <span className="text-black">{Tdec?.Address}</span></p>
+            <p>Kinh nghiệm: <span className="text-black">{Tdec?.Experience} years</span></p>
           </div>
           <div>
             <div className="flex gap-3 flex-col">
-              <p className="bg-[#1671D8] py-1 px-2 w-fit">Courses</p>
+              <p className="bg-[#1671D8] py-1 px-2 w-fit">Khoá học</p>
               {courses &&
                 courses.filter((course) => course.isapproved)
                 .map((course) => (
@@ -124,7 +119,7 @@ function DashboardTeacher() {
                     </span>
                     <span className="text-black font-bold">
                       {" => "}
-                      Rs. {price[course.coursename]} per student / per month
+                      {price[course.coursename]}.000đ học sinh/tháng
                     </span>
                   </p>
                 ))}
@@ -132,35 +127,6 @@ function DashboardTeacher() {
           </div>
         </div>
         
-        {formPopup && (
-          <div className='fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex items-center justify-center'>
-            <div className='bg-[#5be0de] text-black w-[70vw] px-14 py-10 rounded-sm'>
-              <p className='text-3xl'>Teacher Feedback Form</p>
-              <p className=' border-b-2 py-2'>We highly appreciate your involvement. Please help us improve by filling out this teacher feedback form. Thank you!</p>
-
-              <div className='flex flex-col gap-3 my-5 pb-5 border-b-2'>
-                <label>Full Name</label>
-                <input type="text" className='p-2'  placeholder='Teacher / Instructor Name'/>
-                <label>Course Name</label>
-
-                <input type="text" className='p-2'  placeholder='Course Name'/>
-
-                <label>Number of Years Teaching ?</label>
-                <input type="text" className='p-2'  placeholder='in years'/>
-              </div>
-
-              <div className='py-3 flex flex-col justify-center items-center'>
-                <p className='pb-3 text-center'>Do you have suggestions on what we can do to provide you with a better service?</p>
-                <textarea className=" rounded-md w-[80%] h-32 p-2" placeholder="Type here ..."></textarea>
-              </div>
-
-              <div className='flex justify-center mt-3'>
-                <button className='w-[10rem]'>Submit Form</button>
-              </div>
-              
-            </div>
-          </div>
-        )}
       </div>
     </>
   );

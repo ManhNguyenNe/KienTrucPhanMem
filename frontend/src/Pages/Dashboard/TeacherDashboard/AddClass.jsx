@@ -12,14 +12,24 @@ function AddClass({ onClose }) {
   const [CourseId, setCourseId] = useState('');
   const [allowedDays, setCurrData] = useState([]);
 
+  // const DAY = [
+  //   "Sunday",    
+  //   "Monday",    
+  //   "Tuesday",   
+  //   "Wednesday", 
+  //   "Thursday",  
+  //   "Friday",    
+  //   "Saturday"   
+  // ];
+
   const DAY = [
-    "Sunday",    
-    "Monday",    
-    "Tuesday",   
-    "Wednesday", 
-    "Thursday",  
-    "Friday",    
-    "Saturday"   
+    "Chủ nhật",    
+    "Thứ hai",    
+    "Thứ ba",   
+    "Thứ tư", 
+    "Thứ năm",  
+    "Thứ sáu",    
+    "Thứ bảy"   
   ];
   
   function setToMidnight(dateTimeString) {
@@ -186,7 +196,7 @@ function AddClass({ onClose }) {
         <div className='absolute w-9 h-9 bg-[#E2B659] rounded-xl cursor-pointer flex items-center justify-center m-2' onClick={onClose}>✖️</div>
         
         <div className='flex justify-center mt-5 gap-10 border-b-2 py-5'>
-          <p className='text-2xl'>Create next class</p>
+          <p className='text-2xl'>Tạo lớp học</p>
           <select value={CourseId} onChange={(e) => setCourseId(e.target.value)} className='text-gray-900 rounded-md w-28 px-2 border-0 outline-0'>
             {courses && (
               courses.filter((course) => course.isapproved)
@@ -200,7 +210,7 @@ function AddClass({ onClose }) {
         <div className='flex items-center justify-around my-20 mx-5'>
 
           <div className='flex gap-5 text-black'>
-            <label htmlFor="" className='text-xl text-white'>Date & Time:</label>
+            <label htmlFor="" className='text-xl text-white'>Ngày và giờ:</label>
             <DateTime setDate={setDate} allowedDays={allowedDays}/>
           </div>
         </div>
@@ -212,13 +222,13 @@ function AddClass({ onClose }) {
           </div>
 
           <div className='flex gap-5'>
-            <label htmlFor="" className='text-xl'>Title:</label>
+            <label htmlFor="" className='text-xl'>Tiêu đề:</label>
             <input value={note} onChange={(e) => setNote(e.target.value)} type="text" className='border-0 outline-0 text-gray-900 py-1 px-3 rounded-sm' />
           </div>
         </div>
 
         <div className='flex items-center justify-center'>
-          <div onClick={addCourses} className='bg-[#E2B659] w-32 text-center py-2 rounded-sm text-brown-900 text-xl cursor-pointer'>Submit</div>
+          <div onClick={addCourses} className='bg-[#E2B659] w-32 text-center py-2 rounded-sm text-brown-900 text-xl cursor-pointer'>Gửi</div>
         </div>
       </div>
     </div>

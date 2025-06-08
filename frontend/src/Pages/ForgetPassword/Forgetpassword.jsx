@@ -47,14 +47,14 @@ const Forgetpassword = () => {
   return (
     <section className='h-[100vh] flex items-center justify-center'>
       <form noValidate className='w-96 p-10 flex flex-col justify-center gap-4 text-white shadow-[0_0_10px_white] bg-cyan-900 rounded-lg' onSubmit={onFormSubmit}>
-        <h1 className='text-2xl font-bold text-white'>Forgot Your Password?</h1>
-        <p className='text-lg text-white'>Enter your email address below to reset your password.</p>
-        <label htmlFor='email' className='text-2xl text-white font-semibold rounded-md'>Email Address</label>
+        <h1 className='text-2xl font-bold text-white'>Quên Mật Khẩu?</h1>
+        <p className='text-lg text-white'>Nhập địa chỉ Email của bạn để tạo mật khẩu mới.</p>
+        <label htmlFor='email' className='text-2xl text-white font-semibold rounded-md'>Địa chỉ Email</label>
         <input  
           type="email"
           name="email" 
           id="email" 
-          placeholder="Enter your email"
+          placeholder="Nhập địa chỉ Email"
           value={data.email}
           onChange={handleChange}
           className='bg-transparent border-2 border-white py-3 px-4 focus:outline-none focus:border-yellow-500 rounded-lg'
@@ -63,9 +63,9 @@ const Forgetpassword = () => {
           <Radiobtn userType={userType} setUserType={setUserType} />
         </div>
         <div className='flex flex-row items-center justify-between mt-4'>
-          <button type="submit" className='bg-yellow-500 text-cyan-900 py-2 px-4 font-bold hover:bg-yellow-800'>Send</button>
+          <button type="submit" className='bg-yellow-500 text-cyan-900 py-2 px-4 font-bold hover:bg-yellow-800'>Gửi</button>
           <p className='text-xl text-yellow-500 flex items-center' onClick={() => navigate(-1)}>
-            <IoArrowBack className='text-xl text-semibold' /> Go back
+            <IoArrowBack className='text-xl text-semibold' /> Quay lại
           </p>
         </div>
       </form>

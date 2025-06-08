@@ -95,11 +95,11 @@ export default function AdminLogin() {
       </div>
       <div className="container py-5">
         <div className="para1">
-          <h2> WELCOME BACK!</h2>
+          <h2> CHÀO MỪNG QUAY TRỞ LẠI!</h2>
         </div>
 
         <div className="para">
-          <h5> Please Log Into Your Account.</h5>
+          <h5> Đăng nhập vào tài khoản:</h5>
         </div>
 
         <div className="form">
@@ -107,7 +107,7 @@ export default function AdminLogin() {
             <div className="input-1">
               <input
                 type="email"
-                placeholder="Email Address"
+                placeholder="Địa chỉ Email"
                 className="input-0"
                 value={Email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -119,7 +119,7 @@ export default function AdminLogin() {
             <div className="input-2">
               <input
                 type="password"
-                placeholder="Password"
+                placeholder="Mật khẩu"
                 className="input-0"
                 value={Password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -132,7 +132,7 @@ export default function AdminLogin() {
             {/* btns */}
             <div className="btns">
               <button type="submit" className="btns-1">
-                Log In
+                Đăng nhập
               </button>
             </div>
             {errors.general && (

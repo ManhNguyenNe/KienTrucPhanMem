@@ -36,33 +36,33 @@ function Contact() {
     <>
     <Header/>
     <div className="contact">
-        <h4>Contact Us</h4>
+        <h4>Liên hệ</h4>
         <hr className="underLine"/>
         <div className="content">
           <img src={Mail} width={700} alt="" />
           <form  className="form-submit">
-            <h4>Send Message</h4>
+            <h4>Gửi Lời Nhắn</h4>
             <input
               type="text"
-              placeholder="Name"
+              placeholder="Họ tên"
               className="input"
               value={name}
               onChange={(e)=>setName(e.target.value)}
             />
             <input
               type="text"
-              placeholder="Email Address"
+              placeholder="Địa chỉ Email"
               value={email}
               onChange={(e)=>setEmail(e.target.value)}
             />
             <textarea
-              placeholder="Message"
+              placeholder="Lời nhắn"
               className="textArea"
               name="message"
               value={msg}
               onChange={(e)=>setMsg(e.target.value)}
             />
-            <button onClick={handlemsg} className="w-[19rem] bg-light-blue-800">Send A Message</button>
+            <button onClick={handlemsg} className="w-[19rem] bg-light-blue-800">Gửi</button>
           </form>
         </div>
       </div>

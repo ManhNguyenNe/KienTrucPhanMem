@@ -139,24 +139,24 @@ const Admin = () => {
       {/* Main Section */}
       <div className="p-4 sm:p-8 md:p-12 lg:p-10">
         <h1 className="text-xl sm:text-3xl md:text-4xl lg:text-2xl border-b-2 font-semibold text-white border-white">
-          All New Request
+          Yêu cầu mới
         </h1>
 
         <div onClick={()=> setOpen(prev => !prev)} className=" absolute right-10 top-[6.5rem] text-center cursor-pointer">
-            <h4 className="text-white bg-green-800 p-4 w-32">Messages</h4>
+            <h4 className="text-white bg-green-800 p-4 w-32">Liên hệ</h4>
         </div>
         
         <div onClick={()=>navigator(`/admin/course/${data}`)} className=" absolute right-52 top-[6.5rem] text-center cursor-pointer">
-            <h4 className="text-white bg-blue-800 p-4 w-44">Course Requests</h4>
+            <h4 className="text-white bg-blue-800 p-4 w-44">Khoá học</h4>
         </div>
 
         {open && (
           <div className="mt-3 w-[30rem] absolute right-10 bg-gray-700 text-gray-100 p-5">
             {allmsg.map((msg,index) => (
               <div key={index} className="bg-gray-600 mb-5 rounded-sm p-2">
-                <p className="text-black">Name : <span className="text-white">{msg.name}</span></p>
-                <p className=" text-light-blue-600"><span className="text-black">Email : </span>{msg.email}</p>
-                <p><span className="text-black">Message : </span>{msg.message}</p>
+                <p className="text-black">Họ tên : <span className="text-white">{msg.name}</span></p>
+                <p className=" text-light-blue-600"><span className="text-black">Địa chỉ Email : </span>{msg.email}</p>
+                <p><span className="text-black">Lời nhắn : </span>{msg.message}</p>
               </div>
             ))}
 
@@ -167,7 +167,7 @@ const Admin = () => {
       
       <div className="flex items-start justify-center gap-20">
         <div className="rounded-md">
-          <h4 className="text-white bg-blue-gray-900 p-4 w-40">Student Request</h4>
+          <h4 className="text-white bg-blue-gray-900 p-4 w-40">Duyệt học sinh</h4>
           {
             StudentData.length > 0 ? StudentData.map((student) => (
               student.Isapproved === "pending" && (
@@ -187,7 +187,7 @@ const Admin = () => {
         </div>
 
         <div className="rounded-md">
-        <h4 className="text-white bg-blue-gray-900 p-4 w-40">Teacher Request</h4>
+        <h4 className="text-white bg-blue-gray-900 p-4 w-40">Duyệt giáo viên</h4>
         {
             TeacherData.length > 0 ? TeacherData.map((teacher) => (
               teacher.Isapproved === "pending" && (
@@ -207,7 +207,7 @@ const Admin = () => {
         </div>
         
         <div className="rounded-md">
-        <h4 className="text-white bg-red-500 p-4 w-40">Rejected Request</h4>
+        <h4 className="text-white bg-red-500 p-4 w-40">Từ chối</h4>
           {
             TeacherData.length > 0 ? TeacherData.map((teacher) => (
               teacher.Isapproved === "rejected" && (

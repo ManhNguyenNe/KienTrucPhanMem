@@ -129,11 +129,11 @@ export default function Login() {
         </div> */}
         {/* headings */}
         <div className="para1">
-          <h2> WELCOME BACK!</h2>
+          <h2> CHÀO MỪNG TRỞ LẠI!</h2>
         </div>
 
         <div className="para">
-          <h5> Please Log Into Your Account.</h5>
+          <h5> Đăng nhập để tiếp tục</h5>
         </div>
 
         <div className="form">
@@ -141,7 +141,7 @@ export default function Login() {
             <div className="input-1">
               <input
                 type="text"
-                placeholder="Email Address"
+                placeholder="Địa chỉ Email"
                 className="input-0"
                 value={Email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -153,7 +153,7 @@ export default function Login() {
             <div className="input-2">
               <input
                 type="password"
-                placeholder="Password"
+                placeholder="Mật khẩu"
                 className="input-0"
                 value={Password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -169,24 +169,24 @@ export default function Login() {
             </div>
 
             <div className="signup-link">
-              <span>Don't have an account? </span>
+              <span>Chưa có tài khoản? </span>
               <NavLink to="/signup" className="link text-yellow-400 text-semibold text-md ">
-                signup
+                 Đăng kí
               </NavLink>
             </div>
 
             <div className="text-yellow-400 text-semibold pt-3 cursor-pointer" onClick={()=>navigate('/forgetpassword')} >
-              Forget Password?
+              Quên mật khẩu?
             </div>
 
             <div className="text-yellow-400 text-semibold pt-3 cursor-pointer" onClick={()=>navigate('/adminLogin')} >
-              Admin Login
+              Admin
             </div>
 
             {/* btns */}
             <div className="btns">
               <button type="submit" className="btns-1">
-                Log In
+                Đăng nhập
               </button>
             </div>
             {err != '' && (

@@ -50,11 +50,11 @@ function TeacherClasses() {
                     }
                     return course.liveClasses.map(liveClass => ({
                         ...liveClass,
-                        coursename: course.coursename || 'Unknown Course'
+                        coursename: course.coursename || 'Không rõ'
                     }));
                 });
 
-                console.log("Processed live classes:", allLiveClasses);
+                console.log("Các lớp học đã hoàn thành:", allLiveClasses);
                 setData(allLiveClasses);
 
             } catch (error) {
@@ -72,7 +72,7 @@ function TeacherClasses() {
 
     return (
         <div className='ml-60 mt-20 text-white flex justify-between mr-80'>
-            <h1 className='absolute bottom-72 left-60 text-[#1671D8] text-2xl mt-4 mb-4 font-semibold'>Weekly Schedule</h1>
+            <h1 className='absolute bottom-72 left-60 text-[#1671D8] text-2xl mt-4 mb-4 font-semibold'>Thời khoá biểu tuần</h1>
 
             <div className='h-[17rem] w-[30rem] overflow-auto '>
             {data.filter(clas => {
@@ -112,7 +112,7 @@ function TeacherClasses() {
                         </div>
                         <div className='flex gap-12 items-center'>
                             <div className='ml-3'>
-                                <p>Your next Class</p>
+                                <p>Lớp học tiếp theo</p>
                                 <p className='text-[#018280] text-3xl font-semibold'>{data[0]?.coursename.toUpperCase()}</p>
                                 <p className=' text-light-blue-700'>{data[0]?.title.slice(0, 25)} ...</p>
                             </div>
@@ -123,7 +123,7 @@ function TeacherClasses() {
             )}
 
             <div onClick={() => setShowPopup(true)} className='absolute right-10 bg-blue-900 p-2 rounded-sm cursor-pointer'>
-                + ADD CLASS
+                + Tạo lớp
             </div>
             {showPopup && (
                 <AddClass onClose={() => setShowPopup(false)} />

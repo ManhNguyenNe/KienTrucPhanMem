@@ -9,20 +9,20 @@ function Header() {
       <NavLink to='/'>
       <div className="logo">
         <img src={Logo} alt="logo" />
-        <h1 className='text-2xl text-[#4E84C1] font-bold'>Shiksharthee</h1>
+        <h1 className='text-2xl text-[#4E84C1] font-bold'>Trung Tâm Luyện Thi ABC</h1>
       </div>
       </NavLink>
       <div className="link-nav">
         <ul>
-          <li><NavLink to='/' className={({isActive}) => isActive ? "active" : "deactive" }> Home </NavLink></li>
-          <li><NavLink to='/courses' className={({isActive}) => isActive ? "active" : "deactive"}> Courses </NavLink></li>
-          <li><NavLink to='/about' className={({isActive}) => isActive ? "active" : "deactive"}> About </NavLink></li>
-          <li><NavLink to='/contact' className={({isActive}) => isActive ? "active" : "deactive"}> Contact us </NavLink></li>
+          <li><NavLink to='/' className={({isActive}) => isActive ? "active" : "deactive" }> Trang Chủ </NavLink></li>
+          <li><NavLink to='/courses' className={({isActive}) => isActive ? "active" : "deactive"}> Khoá Học </NavLink></li>
+          <li><NavLink to='/about' className={({isActive}) => isActive ? "active" : "deactive"}> Giới Thiệu</NavLink></li>
+          <li><NavLink to='/contact' className={({isActive}) => isActive ? "active" : "deactive"}> Liên Hệ </NavLink></li>
         </ul>
       </div>
       <div className='flex gap-6'>
-        <NavLink to='/login' className={({isActive}) => isActive ? "deactive" : "deactive"}><button>Login</button></NavLink>
-        <NavLink to='/signup' className={({isActive}) => isActive ? "deactive" : "deactive"}><button>Signup</button></NavLink>
+        <NavLink to='/login' className={({isActive}) => isActive ? "deactive" : "deactive"}><button>Đăng Nhập</button></NavLink>
+        <NavLink to='/signup' className={({isActive}) => isActive ? "deactive" : "deactive"}><button>Đăng Kí</button></NavLink>
       </div>
     </header>
     <div className="gapError"></div>

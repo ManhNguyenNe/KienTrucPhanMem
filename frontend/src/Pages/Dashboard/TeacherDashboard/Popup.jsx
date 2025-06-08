@@ -144,33 +144,33 @@ function Popup({ onClose, subject }) {
   const dateGap = 3; // 3 hours
 
   const [day, setDay] = useState({
-    sun: false,
-    mon: false,
-    tue: false,
-    wed: false,
-    thu: false,
-    fri: false,
-    sat: false,
+    CN: false,
+    T2: false,
+    T3: false,
+    T4: false,
+    T5: false,
+    T6: false,
+    T7: false,
   });
 
   const [dayValue, setDayValue] = useState({
-    sun: '',
-    mon: '',
-    tue: '',
-    wed: '',
-    thu: '',
-    fri: '',
-    sat: '',
+    CN: '',
+    T2: '',
+    T3: '',
+    T4: '',
+    T5: '',
+    T6: '',
+    T7: '',
   });
 
   const dayIndex = {
-    sun: 0,
-    mon: 1,
-    tue: 2,
-    wed: 3,
-    thu: 4,
-    fri: 5,
-    sat: 6,
+    CN: 0,
+    T2: 1,
+    T3: 2,
+    T4: 3,
+    T5: 4,
+    T6: 5,
+    T7: 6,
   };
 
   const handleCheckboxChange = (dayName) => {
@@ -189,7 +189,7 @@ function Popup({ onClose, subject }) {
     const hasMissingTime = selectedDays.some((d) => d.starttime === null);
 
     if (hasMissingTime) {
-      alert('Please fill in the time for all selected days.');
+      alert('Hãy nhập thời gian cho từng ngày được chọn.');
       return;
     }
 
@@ -197,11 +197,11 @@ function Popup({ onClose, subject }) {
       const startTime = d.starttime;
       const endTime = d.endtime;
       if (startTime >= endTime) {
-        alert('Start time must be earlier than end time.');
+        alert('Thời gian bắt đầu phải trước thời gian kết thúc.');
         return true;
       }
       if ((endTime - startTime) > 3 * 60) {
-        alert('End time should not be more than 3 hours after start time.');
+        alert('Thời gian kết thúc không được vượt quá 3 giờ so với thời gian bắt đầu.');
         return true;
       }
       return false;
@@ -212,12 +212,12 @@ function Popup({ onClose, subject }) {
     }
 
     if (desc === '') {
-      alert('Fill the description.');
+      alert('Mô tả không được để trống.');
       return;
     }
 
     if(selectedDays.length === 0){
-      alert('pls! select any day and time.');
+      alert('Chọn ít nhất 1 ngày giờ.');
       return;
     }
 
@@ -270,7 +270,7 @@ function Popup({ onClose, subject }) {
         </div>
         <div className='m-5 flex flex-col gap-4 text-white text-xl'>
           <div>
-            <label htmlFor=''>Coursename: </label>
+            <label htmlFor=''>Tên khoá học: </label>
             <input
               type='text'
               className='bg-[#32B0AE] p-2 rounded-md w-52 border-0 outline-0'
@@ -279,7 +279,7 @@ function Popup({ onClose, subject }) {
             />
           </div>
 
-          <label>Timing: </label>
+          <label>Thời gian: </label>
           {Object.keys(day).map((d) => (
             <div
               key={d}
@@ -309,14 +309,14 @@ function Popup({ onClose, subject }) {
                 className='w-[7rem] rounded-sm text-black placeholder:text-gray pl-2'
                 type='time'
                 readOnly
-                placeholder='End Time'
+                placeholder='Ngày kết thúc'
                 value={dayValue[d] ? convertMinutesToTime(convertTimeToMinutes(dayValue[d]) + dateGap * 60) : ''}
               />
             </div>
           ))}
 
           <div>
-            <label htmlFor=''>Description: </label>
+            <label htmlFor=''>Mô tả: </label>
             <input
               type='text'
               value={desc}
@@ -331,7 +331,7 @@ function Popup({ onClose, subject }) {
             onClick={addCourse}
             className='bg-[#335699] text-white px-10 py-3 rounded-md text-xl cursor-pointer'
           >
-            Create Course
+            Tạo khoá học
           </span>
         </div>
       </div>

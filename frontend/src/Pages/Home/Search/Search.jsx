@@ -19,7 +19,9 @@ function search() {
         biology: 500,
     };
 
-    const daysName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    // const daysName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const daysName = ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"];
+
     
     let SearchTeacher = async()=>{
         let Subject = data.toLowerCase();
@@ -62,7 +64,7 @@ function search() {
             <div className="search mb-10">
                 <img src="https://www.figma.com/file/6b4R8evBkii6mI53IA4vSS/image/6c476f454537d7f27cae2b4d0f31e2b59b3020f5" width={30} alt="" />
                 <input type="text" placeholder='Ex: Math ...' value={data} onChange={(e)=>setData(e.target.value)}/>
-                <button className='w-32' onClick={SearchTeacher}>Find Teacher</button>
+                <button className='w-32' onClick={SearchTeacher}>Tìm giáo viên</button>
             </div>
             <div className='overflow-auto '>
                 { course && (

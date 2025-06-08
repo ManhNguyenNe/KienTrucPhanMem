@@ -3,7 +3,6 @@ import { ApiError } from "../utils/ApiError.js";
 import { Teacher, Teacherdocs } from "./teacher.model.js"; 
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Sendmail } from "../utils/Nodemailer.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { student } from "../student.module/student.model.js";
 import nodemailer from "nodemailer";
 

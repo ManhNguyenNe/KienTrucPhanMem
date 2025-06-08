@@ -7,36 +7,36 @@ function Footer() {
         <div className="leftPart">
           <div className="title">
             <img src="https://www.figma.com/file/6b4R8evBkii6mI53IA4vSS/image/53619c42501fb7619406ed947b38c5fa4f07597c" width={60} alt="" />
-            <h2>Title</h2>
+            <h2>ABC</h2>
           </div>
-          <p>Copyright  © 2024</p>
-          <p>Small Change. Big Change.</p>
+          <p>Copyright  © 2025</p>
+          <p>Thay đổi nhỏ, cơ hội lớn</p>
         </div>
         <div className="rightPart">
           <div className="links">
             <div className="link">
               <hr />
-              <p>Home</p>
+              <p>Trang chủ</p>
             </div>
             <div className="link">
               <hr />
-              <p>About</p>
+              <p>Giới Thiệu</p>
             </div>
             <div className="link">
               <hr />
-              <p>How it works</p>
+              <p>Tham Gia</p>
             </div>
             <div className="link">
               <hr />
-              <p>Courses</p>
+              <p>Khoá Học</p>
             </div>
             <div className="link">
               <hr />
-              <p>Contact Us</p>
+              <p>Liên Hệ</p>
             </div>
             <div className="link">
               <hr />
-              <p>Privacy Policy</p>
+              <p>Chính Sách</p>
             </div>
           </div>
           <hr className="hr"/>

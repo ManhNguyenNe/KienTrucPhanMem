@@ -50,7 +50,8 @@ function StudentCourses() {
     biology: 500,
   };
 
-  const daysName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  // const daysName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const daysName = ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"];
 
   const Image = {
     "physics" : "https://www.figma.com/file/6b4R8evBkii6mI53IA4vSS/image/8e9bf690d23d886f63466a814cfbec78187f91d2",
@@ -73,7 +74,7 @@ function StudentCourses() {
 
             {sub.schedule && (
               <div>
-                <p className='mt-2 text-blue-700 font-bold'>Timing:</p>
+                <p className='mt-2 text-blue-700 font-bold'>Thời gian:</p>
                 {'[ '}
                 {sub.schedule.map(daytime => {
                   return `${daysName[daytime.day]} ${Math.floor(daytime.starttime / 60)}:${daytime.starttime % 60 === 0 ? "00" : daytime.starttime % 60} - ${Math.floor(daytime.endtime/60)}:${daytime.endtime % 60 === 0 ? "00" : daytime.endtime % 60}`;

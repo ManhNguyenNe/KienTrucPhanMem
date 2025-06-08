@@ -101,7 +101,7 @@ const addCourseTeacher = asyncHandler(async(req,res)=>{
     }
     
     if(isconflict){
-      throw new ApiError(400, "Already enrolled in a course with the same timing.")
+      throw new ApiError(400, "Đã đăng kí.")
     }
 
 
@@ -115,12 +115,12 @@ const addCourseTeacher = asyncHandler(async(req,res)=>{
     console.log(newCourse)
 
     if(!newCourse){
-      throw new ApiError(400, "couldnt create course")
+      throw new ApiError(400, "Tạo thất bại")
     }
 
     return res
     .status(200)
-    .json(new ApiResponse(200, {newCourse, loggedTeacher}, "new course created"))
+    .json(new ApiResponse(200, {newCourse, loggedTeacher}, "Tạo thành công@"))
     
 })
 
@@ -182,7 +182,7 @@ const addCourseStudent = asyncHandler(async(req,res)=>{
 
   
   if(isconflict){
-    throw new ApiError(400, "Already enrolled in a course with the same timing.")
+    throw new ApiError(400, "Bạn đã đăng ký một khóa học khác trùng thời gian này.")
   }
 
   const alreadyEnrolled = await course.findOne({
@@ -190,7 +190,7 @@ const addCourseStudent = asyncHandler(async(req,res)=>{
     enrolledStudent: loggedStudent._id
   });
   if(alreadyEnrolled){
-    throw new ApiError(400,"already enrolled in this course")
+    throw new ApiError(400,"Bạn đã đăng ký khóa học này.")
   }
 
   const selectedCourse = await course.findByIdAndUpdate(courseID, 
@@ -487,7 +487,7 @@ const canStudentEnroll = asyncHandler(async(req,res)=>{
 
   
   if(isconflict){
-    throw new ApiError(400, "Already enrolled in a course with the same timing.")
+    throw new ApiError(400, "Bạn đã đăng ký một khóa học khác trùng thời gian này.")
   }
 
   const alreadyEnrolled = await course.findOne({
@@ -495,7 +495,7 @@ const canStudentEnroll = asyncHandler(async(req,res)=>{
     enrolledStudent: loggedStudent._id
   });
   if(alreadyEnrolled){
-    throw new ApiError(400,"already enrolled in this course")
+    throw new ApiError(400,"Bạn đã đăng ký khóa học này.")
   }
   return res.status(200).json(new ApiResponse(200, {}, "student can enroll"))
 })

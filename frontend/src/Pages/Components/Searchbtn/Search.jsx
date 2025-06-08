@@ -21,7 +21,9 @@ function Search() {
     biology: 500,
   };
 
-  const daysName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  // const daysName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const daysName = ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"];
+
 
   const openTeacherDec = async(id,fname,lname,sub)=>{
     setTname({fname,lname,sub});
@@ -157,12 +159,12 @@ function Search() {
         />
         <input
           type="text"
-          placeholder="Ex: Math ..."
+          placeholder="VD: Math ..."
           value={data}
           onChange={(e) => setData(e.target.value)}
         />
         <button className="w-32" onClick={() => SearchTeacher(data)}>
-          Find Teacher
+          Tìm
         </button>
       </div>
       <div className="overflow-auto">
@@ -179,29 +181,29 @@ function Search() {
                 {Data.enrolledteacher.Firstname} {Data.enrolledteacher.Lastname}
               </div>
               <div className="text-gray-900">
-                <span className="text-black">Desc :</span> {Data.description}
+                <span className="text-black">Mô tả :</span> {Data.description}
               </div>
               <div>{Data.enrolledStudent.length}/20</div>
               { idArray.includes(Data._id) ? (
-                <div onClick={()=> alert("You Already enrolled, pls find other course")}
+                <div onClick={()=> alert("Bạn đã đăng kí lớp học này!")}
                   className="text-white bg-green-900 py-2 px-3 absolute right-4 cursor-not-allowed">
-                  Already Enrolled
+                  Đã đăng kí
                 </div>
               ) : Data.enrolledStudent.length < 20 ? (
                 <div
                   onClick={() => handleEnroll(Data.coursename, Data._id)}
                   className="text-white bg-blue-900 py-2 px-3 absolute right-4 cursor-pointer"
                 >
-                  Enroll Now
+                  Đăng kí
                 </div>
               ) : (
-                <div onClick={()=> alert("Already Full, pls find other course")}
+                <div onClick={()=> alert("Lớp học đã đầy!")}
                   className="text-white bg-red-900 py-2 px-3 absolute right-4 cursor-not-allowed">
-                  Already Full
+                  Hết chỗ
                 </div>
               )}
               <div className="absolute bottom-2">
-                <span className='mt-2 font-bold'>Timing : </span>
+                <span className='mt-2 font-bold'>Thời gian : </span>
                 {'[ '}
                 {Data.schedule.map(daytime => {
                   return `${daysName[daytime.day]} ${Math.floor(daytime.starttime / 60)}:${daytime.starttime % 60 === 0 ? "00" : daytime.starttime % 60} - ${Math.floor(daytime.endtime/60)}:${daytime.endtime % 60 === 0 ? "00" : daytime.endtime % 60}`;
@@ -218,10 +220,10 @@ function Search() {
                   <div className=' absolute w-9 h-9 bg-white rounded-xl cursor-pointer flex items-center justify-center m-2' onClick={()=>setOpenTM(false)}>✖️</div>
                   <div className='flex flex-col justify-center p-5 text-1xl gap-4'>
                   <p className='text-center text-2xl bg-blue-900 rounded-sm py-1 text-white mb-5'>{tname.sub.toUpperCase()}</p>
-                  <p>Teacher Name : <span className='text-white'>{tname.fname} {tname.lname}</span></p>
-                  <p>Education : <span className='text-white'>Postgraduate from <b className='text-gray-200'>{Tdec.PGcollege}</b> with {Tdec.PGmarks} CGPA</span></p>
-                  <p>Experience : <span className='text-white'>{Tdec.Experience} years</span></p>
-                  <p>Course : <span className='text-white'>{tname.sub.toUpperCase()}</span></p>
+                  <p>Tên giáo viên : <span className='text-white'>{tname.fname} {tname.lname}</span></p>
+                  <p>Học vấn : <span className='text-white'>Tốt nghiệp <b className='text-gray-200'>{Tdec.PGcollege}</b> với GPA {Tdec.PGmarks}</span></p>
+                  <p>Kinh nghiệm : <span className='text-white'>{Tdec.Experience} năm</span></p>
+                  <p>Khoá học : <span className='text-white'>{tname.sub.toUpperCase()}</span></p>
                   </div>
               </div>
           </div>

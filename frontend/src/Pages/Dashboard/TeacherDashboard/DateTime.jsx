@@ -88,7 +88,7 @@ const DateTime = ({setDate, allowedDays}) => {
         maxTime={setHours(setMinutes(new Date(), 0), 23)}
         filterTime={filterTime}
         dateFormat="MMMM d, yyyy h:mm aa"
-        placeholderText="Select a date and time"
+        placeholderText="Chọn ngày và giờ"
         className="text-gray-900 py-1 px-3 rounded-sm"
       />
     </>

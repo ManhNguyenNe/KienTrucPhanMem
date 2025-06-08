@@ -16,7 +16,7 @@ function Radiobtn({userType,setUserType}) {
           />
           <label htmlFor="radio2" className="radio-button__label">
             <span className="radio-button__custom" />
-            Student
+            Học sinh
           </label>
         </div>
         <div className="radio-button">
@@ -30,7 +30,7 @@ function Radiobtn({userType,setUserType}) {
           />
           <label htmlFor="radio1" className="radio-button__label">
             <span className="radio-button__custom" />
-            Teacher
+            Giảng viên
           </label>
         </div>
       </div>

@@ -61,14 +61,14 @@ function Landing() {
       <div className="top">
         <div className="left">
           <h1>
-          Empowering Minds, Inspiring Futures: <br />Your Gateway to Online Learning with <span className="font-semibold text-amber-400 font-serif text-5xl">Shiksharthee</span>
+          Trao quyền tri thức, thắp sáng tương lai: <br />Cổng thông tin trung tâm luyện thi <span className="font-semibold text-amber-400 font-serif text-5xl">ABC</span>
           </h1>
           {/*  Search  */}
 
           <div className="search mb-10">
             <img src="https://www.figma.com/file/6b4R8evBkii6mI53IA4vSS/image/6c476f454537d7f27cae2b4d0f31e2b59b3020f5" width={30} alt="" />
             <input type="text" placeholder='Ex: Math ...' value={subject} onChange={(e)=>setSubject(e.target.value)}/>
-            <button className='w-32' onClick={handleSearch}>Find Teacher</button>
+            <button className='w-32' onClick={handleSearch}>Tìm kiếm</button>
           </div>
 
         </div>
@@ -79,7 +79,7 @@ function Landing() {
 
       {/* Features */}
       <div className="features ">
-        <p>Why You Choose Us</p>
+        <p>Vì sao nên học tại ABC</p>
         {/* <hr className="underLine"/> */}
         <div className="fets2">
           <div className="fet cursor-pointer mb-5" onClick={AA}>
@@ -87,11 +87,10 @@ function Landing() {
               src="https://www.figma.com/file/6b4R8evBkii6mI53IA4vSS/image/622a85ea75414daadf6055613c074c5280b95444"
               alt=""
             />
-            <h4>Expert Mentor</h4>
+            <h4>Đội ngũ chuyên nghiệp</h4>
             <p>
-              Our expert mentors are the cornerstone of our educational
-              approach. With a wealth of knowledge they support our students on
-              their journey to success.
+            Đội ngũ giáo viên tận tâm là trọng tâm trong cách chúng tôi giảng dạy tri thức,
+            luôn song hành cùng học viên phát triển.
             </p>
           </div>
 
@@ -100,10 +99,10 @@ function Landing() {
               src="https://www.figma.com/file/6b4R8evBkii6mI53IA4vSS/image/1478ee1b2a35123ded761b65c3ed2ceaece0d20f"
               alt=""
             />
-            <h4>High Quality Live Class</h4>
+            <h4>Chất lượng khoá học tốt</h4>
             <p>
-              We deliver high-quality live classes to our students, providing
-              interactive learning experiences led by experienced instructors.{" "}
+            Tổ chức các lớp học online tinh tuý,
+            mang tới trải nghiệm học tập sinh động và tương tác cùng các giảng viên tận tâm.{" "}
             </p>
           </div>
 
@@ -113,11 +112,10 @@ function Landing() {
                 src="https://www.figma.com/file/6b4R8evBkii6mI53IA4vSS/image/c412120e39b2095486c76978d4cd0bea88fd883b"
                 alt=""
               />
-              <h4>24/7 Live Support</h4>
+              <h4>Hỗ trợ 24/7</h4>
               <p>
-                We offer our students 24/7 live support. Whether it's a question
-                or a challenge at midnight, our dedicated team is here to provide
-                guidance, assistance.
+              Luôn sẵn sàng hỗ trợ học viên 24/7. 
+              Đội ngũ giảng viên tận tâm luôn ở đây để hướng dẫn và giúp đỡ bạn.
               </p>
             </div>
           </NavLink>
@@ -127,8 +125,8 @@ function Landing() {
             <div className="flex gap-5 items-center my-5">
               <img src="https://lh3.googleusercontent.com/kq1PrZ8Kh1Pomlbfq4JM1Gx4z-oVr3HG9TEKzwZfqPLP3TdVYrx0QrIbpR-NmMwgDzhNTgi3FzuzseMpjzkfNrdHK5AzWGZl_RtKB80S-GZmWOQciR9s=w1296-v1-e30" alt="" width={300}/>
               <div className="text-white flex flex-col items-center">
-                <h1>High Quality Live Class</h1>
-                <p>We deliver high-quality live classes to our students,<br /> providing interactive learning experiences <br />led by experienced instructors.</p>
+                <h1>Chất lượng khoá học tốt</h1>
+                <p>Tổ chức các lớp học online tinh tuý,<br /> mang tới trải nghiệm học tập sinh động <br /> và tương tác cùng các giảng viên tận tâm.</p>
               </div>
             </div>
           </div>
@@ -141,15 +139,15 @@ function Landing() {
 
               <div className="flex items-center justify-start">
                 <CgProfile/>
-                <p>Prof. Dina Sharma</p>
+                <p>Bùi Gia Huy</p>
               </div>
               <div className="flex items-center">
                 <FaSchool />
-                <p>Galaxy University</p>
+                <p>Học viện Ngân hàng</p>
               </div>
               <div className="flex items-center">
                 <IoSchoolSharp />
-                <p>Ph.D. in Astrophysics</p>
+                <p>Thợ code</p>
               </div>
             </div>
             <div className="bg-[#0E3A59] m-2 p-5 rounded-3xl overflow-hidden flex flex-col items-center justify-center">
@@ -157,15 +155,15 @@ function Landing() {
 
               <div className="flex items-center justify-start">
                 <CgProfile/>
-                <p>Dr. Anand Mishra</p>
+                <p>Nguyễn Đức Mạnh</p>
               </div>
               <div className="flex items-center">
                 <FaSchool />
-                <p>Maharishi University</p>
+                <p>Học viện Ngân hàng</p>
               </div>
               <div className="flex items-center">
                 <IoSchoolSharp />
-                <p>Ph.D. in Quantum Physics</p>
+                <p>Giáo sư CNTT</p>
               </div>
             </div>
             <div className="bg-[#0E3A59] m-2 p-5 rounded-3xl overflow-hidden flex flex-col items-center justify-center">
@@ -173,15 +171,15 @@ function Landing() {
 
               <div className="flex items-center justify-start">
                 <CgProfile/>
-                <p>Prof. Sunita Patel</p>
+                <p>Nguyễn Văn A</p>
               </div>
               <div className="flex items-center">
                 <FaSchool />
-                <p>Ramanujan Institute</p>
+                <p>Học viện Ngân hàng</p>
               </div>
               <div className="flex items-center">
                 <IoSchoolSharp />
-                <p>D.Phil. in Number Theory</p>
+                <p>Chủ tịch nước</p>
               </div>
             </div>
           </div>
@@ -190,7 +188,7 @@ function Landing() {
 
       {/* Courses */}
       <div className="courses">
-      <p>Faculty List</p>
+      <p>Danh sách khoá học</p>
       <hr className="underLine"/>
       <div className="subjects">
         <div className="subject" onClick={()=>teachersList("physics")}>
@@ -228,11 +226,11 @@ function Landing() {
             </div>
             </div>
             { fac.enrolledteacher.Email === "urttsg@gmail.com" ?
-              <h4><span className="font-bold text-brown-800">Education :</span> Post graduate from Calcutta University</h4> 
+              <h4><span className="font-bold text-brown-800">Học vấn :</span> Học viện Ngân hàng</h4> 
               : 
-              <h4><span className="font-bold text-brown-800">Education :</span> Post graduate from Sister Nivedita university</h4>
+              <h4><span className="font-bold text-brown-800">Học vấn :</span> Học viện Ngân hàng</h4>
             }
-            { fac.enrolledteacher.Email === "urttsg@gmail.com" ? <h4>1 years of teaching experience</h4> : <h4>2 years of teaching experience</h4>}
+            { fac.enrolledteacher.Email === "urttsg@gmail.com" ? <h4>1 năm kinh nghiệm</h4> : <h4>2 năm kinh nghiệm</h4>}
           </div>
         )))}
       </div>
@@ -241,18 +239,18 @@ function Landing() {
 
       {/* About Us */}
       <div className="about" style={{backgroundColor: "#042439"}}>
-        <h4>About Us</h4>
+        <h4>Về chúng tôi</h4>
         <hr className="underLine"/>
         <div className="content">
           <div className="left-svg">
             <img src={Plant2} width={300} alt="" />
           </div>
           <p>
-            At Shiksharthee, we believe in the power of education to transform lives. Our platform is designed to be a gateway to knowledge, offering a diverse range of courses and learning experiences for students.
-            <h1 className=" bg-blue-700 w-fit py-1 px-3 rounded-sm my-2">Our Story</h1>
-            Shiksharthee was born out of a passion for learning and a desire to make quality education accessible to everyone. We understand the challenges faced by modern learners and strive to provide a solution that is both convenient and effective.
-            <h1 className=" bg-blue-700 w-fit py-1 px-3 rounded-sm my-2">Our Mission</h1>
-            Our mission is simple yet profound: to empower individuals through education. We aim to create a global learning community where students can discover new passions, enhance their skills, and achieve their academic and professional goals. By leveraging technology and innovative teaching methods, we strive to make learning engaging, interactive, and enjoyable.
+          Tại ABC, chúng tôi tin tưởng vào sức mạnh của giáo dục để thay đổi cuộc sống. Nền tảng của chúng tôi được xây dựng như một cánh cổng dẫn đến tri thức, mang đến đa dạng khóa học và trải nghiệm học tập phong phú cho mọi học viên.
+            <h1 className=" bg-blue-700 w-fit py-1 px-3 rounded-sm my-2">Câu chuyện của chúng tôi</h1>
+            ABC ra đời từ niềm đam mê học hỏi và khát khao mang nền giáo dục chất lượng đến với tất cả mọi người. Chúng tôi thấu hiểu những thử thách mà người học hiện đại đang đối mặt, và không ngừng nỗ lực tạo ra một giải pháp vừa tiện lợi, vừa hiệu quả.
+            <h1 className=" bg-blue-700 w-fit py-1 px-3 rounded-sm my-2">Sứ mệnh của chúng tôi</h1>
+            Sứ mệnh của ABC thật đơn giản nhưng đầy ý nghĩa: trao quyền cho mỗi cá nhân thông qua giáo dục. Chúng tôi hướng đến xây dựng một cộng đồng học tập toàn cầu, nơi mỗi học viên có thể khám phá đam mê mới, nâng cao kỹ năng và hiện thực hóa mục tiêu học tập cũng như nghề nghiệp. Bằng cách ứng dụng công nghệ và phương pháp giảng dạy đổi mới, chúng tôi cam kết mang đến một trải nghiệm học tập sinh động, tương tác và tràn đầy cảm hứng.
           </p>
           <div className="right-svg">
             <img src={Plant} width={400} alt="" />

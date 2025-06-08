@@ -103,8 +103,8 @@ const Signup = () => {
           <h4 className="logo-head">logo</h4>
         </div> */}
         <div className="header">
-          <h3 className="head">WELCOME</h3>
-          <h4 className="Sub-head">join us today !!</h4>
+          <h3 className="head">CHÀO MỪNG</h3>
+          <h4 className="Sub-head">tham gia ngay !!</h4>
         </div>
 
         <div className="inpts">
@@ -112,7 +112,7 @@ const Signup = () => {
             <input
               type="text"
               className="input-x input-4"
-              placeholder="Firstname"
+              placeholder="Họ đệm"
               value={Firstname}
               onChange={(e) => setFirstName(e.target.value)}
             />
@@ -123,7 +123,7 @@ const Signup = () => {
             <input
               type="text"
               className="input-x input-5"
-              placeholder="Lastname"
+              placeholder="Tên"
               value={Lastname}
               onChange={(e) => setLastName(e.target.value)}
             />
@@ -134,7 +134,7 @@ const Signup = () => {
             <input
               type="text"
               className="input-x input-6"
-              placeholder="Email"
+              placeholder="Địa chỉ Email"
               value={Email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -145,7 +145,7 @@ const Signup = () => {
             <input
               type="password"
               className="input-x input-7"
-              placeholder="Password"
+              placeholder="Mật khẩu"
               value={Password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -158,14 +158,16 @@ const Signup = () => {
             </div>
 
             <div className="signupage">
-              <span>Already have an account? </span>
+              <p>Đã có tài khoản? </p>
+              <span>
               <NavLink to="/Login" style={{ color: "green" }} className="link">
-                login
+                 Đăng nhập
               </NavLink>
+              </span>
             </div>
             <div className="btn">  
             <button type="submit" className="btn-4">
-              Signup
+              Đăng kí
             </button>
             </div>
           </form>
@@ -179,7 +181,7 @@ const Signup = () => {
         <img src={Images} alt="" className="imgs" />
       </div>
     </div>
-    <p className='text-sm text-red-400 absolute bottom-3 left-3'>* Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.</p>
+    <p className='text-sm text-red-400 absolute bottom-3 left-3'>* Mật khẩu ít nhất 8 kí tự và bao gồm 1 chữ hoa, 1 chữ thường, 1 số và 1 kí tự đặc biệt</p>
     </>
   );
 };

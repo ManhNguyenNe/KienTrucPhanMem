@@ -55,17 +55,17 @@ function StudentDashboard() {
         <div className='flex items-center gap-3'>
           <img src={logo}
             className="w-14" alt="" />
-          <h1 className='text-2xl text-[#4E84C1] font-bold'>Shiksharthee</h1>
+          <h1 className='text-2xl text-[#4E84C1] font-bold'>Trung Tâm Luyện Thi ABC</h1>
         </div>
         </NavLink>
         <div className='bg-[#0D199D] text-white py-2 px-5 rounded-full'>
-          <p onClick={Handlelogout}>logout</p>
+          <p onClick={Handlelogout}>Đăng xuất</p>
         </div>
       </nav>
 
       <div className='bg-[#008280] flex justify-between items-center'>
         <div className=' text-white font-semibold text-5xl ml-72'>
-          <h1 className='mb-5 text-[#071645]'>Welcome to <span className='text-white'>Shiksharthee</span></h1>
+          <h1 className='mb-5 text-[#071645]'>Chào mừng đến với trung tâm <span className='text-white'>ABC</span></h1>
           <h3 className='ml-16 text-[#071645]'>{data.Firstname} {data.Lastname}</h3>
         </div>
         <div className='m-5 mr-20'>
@@ -82,15 +82,15 @@ function StudentDashboard() {
 
         <div className='flex flex-col gap-1'>
           <NavLink to = {`/Student/Dashboard/${ID}/Search`} className={({isActive}) => isActive ? "bg-white p-3 px-[4.61rem] text-center font-semibold text-[#4E84C1]" : "p-3 text-center font-semibold text-[#4E84C1]" }> 
-          Teacher
+          Giáo viên
           </NavLink>
 
           <NavLink to = {`/Student/Dashboard/${ID}/Classes`} className={({isActive}) => isActive ? "bg-white p-3 px-[4.61rem] text-center font-semibold text-[#4E84C1]" : "p-3 text-center font-semibold text-[#4E84C1]" }> 
-          Classes
+          Lớp học
           </NavLink>
 
           <NavLink to = {`/Student/Dashboard/${ID}/Courses`} className={({isActive}) => isActive ? "bg-white p-3 px-[4.61rem] text-center font-semibold text-[#4E84C1]" : "p-3 text-center font-semibold text-[#4E84C1]" }> 
-          Courses
+          Khoá học
           </NavLink>
         </div>
 

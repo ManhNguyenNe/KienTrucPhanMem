@@ -495,7 +495,7 @@ const approveCourse = asyncHandler(async(req,res)=>{
 
         return res
         .status(200)
-        .json(new ApiResponse(200, theCourse, `Course approved successfully`))
+        .json(new ApiResponse(200, theCourse, `Thành công`))
     }
 
     else{
@@ -505,13 +505,13 @@ const approveCourse = asyncHandler(async(req,res)=>{
         Sendmail(req.body.email, `Course Approval Update`, 
             `<html>
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-                <h1 style="color: #4CAF50; text-align: center;">Course Submission Update!</h1>
-                <p style="font-size: 16px; text-align: center;">Dear ${Fname},</p>
-                <p style="font-size: 16px; text-align: center;">After a thorough evaluation, we regret to inform you that your course, <strong>( ${theCourse.coursename} )</strong>, does not meet the requirements for approval at this time.</p>
-                <p style="font-size: 16px;">Thank you for your understanding and continued commitment to providing quality education.</p>
-                <p style="font-size: 16px;">Best regards,</p>
-                <p style="font-size: 16px;"><strong>The Shiksharthee Team</strong></p>
-                <p style="font-size: 14px;">&copy; 2024 Shiksharthee. All rights reserved.</p>
+                <h1 style="color: #4CAF50; text-align: center;">Cập nhật thông tin khóa học</h1>
+                <p style="font-size: 16px; text-align: center;">Kính gửi ${Fname},</p>
+                <p style="font-size: 16px; text-align: center;">Sau khi đánh giá kỹ lưỡng, chúng tôi rất tiếc phải thông báo rằng khóa học của bạn., <strong>( ${theCourse.coursename} )</strong>, không đáp ứng đủ các yêu cầu tại thời điểm này.</p>
+                <p style="font-size: 16px;">Cảm ơn bạn đã thông cảm và cam kết mang đến một nền giáo dục chất lượng.</p>
+                <p style="font-size: 16px;">Trân trọng,</p>
+                <p style="font-size: 16px;"><strong>Đội ngũ quản trị ABC</strong></p>
+                <p style="font-size: 14px;">&copy; 2024 ABC. Bảo lưu mọi quyền".</p>
                 </body>
             </html>
         `)

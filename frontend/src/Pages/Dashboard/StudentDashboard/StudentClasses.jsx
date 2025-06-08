@@ -40,7 +40,7 @@ function StudentClasses() {
                     }
                     return course.liveClasses.map(liveClass => ({
                         ...liveClass,
-                        coursename: course.coursename || 'Unknown Course'
+                        coursename: course.coursename || 'Không rõ'
                     }));
                 });
 
@@ -54,7 +54,7 @@ function StudentClasses() {
                     return dateA.getTime() - dateB.getTime();
                 });
 
-                console.log("Processed live classes:", allLiveClasses);
+                console.log("Các lớp đã hoàn thành:", allLiveClasses);
                 setData(allLiveClasses);
 
             } catch (error) {
@@ -88,7 +88,7 @@ function StudentClasses() {
         <div className='ml-60 mt-20 text-white flex justify-between mr-80'>
             <div className='flex flex-col gap-8'>
                 <div>
-                    <h1 className='text-[#1671D8] text-2xl mt-4 mb-4 font-semibold'>Weekly Schedule</h1>
+                    <h1 className='text-[#1671D8] text-2xl mt-4 mb-4 font-semibold'>Thời khoá biểu tuần</h1>
                     <div className='h-[17rem] w-[30rem] overflow-auto'>
                         {weeklyClasses.length > 0 ? (
                             weeklyClasses.map(clas => (
@@ -107,7 +107,7 @@ function StudentClasses() {
                                 </div>
                             ))
                         ) : (
-                            <p className='text-black text-center'>No classes scheduled for this week</p>
+                            <p className='text-black text-center'>Tuần này không có lớp</p>
                         )}
                     </div>
                 </div>
@@ -127,7 +127,7 @@ function StudentClasses() {
                         </div>
                         <div className='flex gap-12 items-center'>
                             <div className='ml-3'>
-                                <p>Your next Class</p>
+                                <p>Lớp học sắp tới:</p>
                                 <p className='text-[#018280] text-3xl font-semibold'>{nextClass.coursename.toUpperCase()}</p>
                                 <p className='text-light-blue-700'>{nextClass.title}</p>
                             </div>
@@ -137,7 +137,7 @@ function StudentClasses() {
                 </NavLink>
             ) : (
                 <div className='bg-white p-5 h-52 rounded-lg text-black'>
-                    <p className='text-center mt-10'>No upcoming classes</p>
+                    <p className='text-center mt-10'>Không có lớp học</p>
                 </div>
             )}
         </div>
