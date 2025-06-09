@@ -20,22 +20,7 @@ router.route("/login").post(
 
 router.route("/logout").post(authSTD, logout)
 
-router.route("/Verification/:id").post(authSTD,
-    upload.fields([
-        {
-            name:"Aadhaar",
-            maxCount:1,
-        },
-        {
-            name:"Secondary",
-            maxCount:1,
-        },
-        {
-            name:"Higher",
-            maxCount:1
-        }
-    ]) ,
-    addStudentDetails)
+router.route("/Verification/:id").post(authSTD, addStudentDetails)
      
 router.route("/StudentDocument/:id").get(authSTD, getStudent)
 

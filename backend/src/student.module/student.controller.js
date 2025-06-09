@@ -30,14 +30,14 @@ const verifyEmail = async (Email, Firstname, createdStudent_id) => {
         const mailOptions = {
             from: "elearningsnu@gmail.com",
             to: Email,
-            subject: "Verify your E-mail",
+            subject: "Xác minh Email của bạn",
             html: `
             <div style="text-align: center;">
-                <p style="margin: 20px;"> Hi ${Firstname}, Please click the button below to verify your E-mail. </p>
+                <p style="margin: 20px;"> Xin chào ${Firstname}, vui lòng nhấp vào nút bên dưới để xác minh email của bạn. </p>
                 <img src="https://img.freepik.com/free-vector/illustration-e-mail-protection-concept-e-mail-envelope-with-file-document-attach-file-system-security-approved_1150-41788.jpg?size=626&ext=jpg&uid=R140292450&ga=GA1.1.553867909.1706200225&semt=ais" alt="Verification Image" style="width: 100%; height: auto;">
                 <br>
                 <a href="http://localhost:5000/api/student/verify?id=${createdStudent_id}">
-                    <button style="background-color: black; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 10px 0; cursor: pointer;">Verify Email</button>
+                    <button style="background-color: black; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 10px 0; cursor: pointer;">Xác thực Email</button>
                 </a>
             </div>`
         };
@@ -46,7 +46,7 @@ const verifyEmail = async (Email, Firstname, createdStudent_id) => {
             if (error) {
                 throw new ApiError(400, "Sending email verification failed");
             } else {
-                console.log("Verification mail sent successfully");
+                console.log("Email xác minh đã được gửi thành công.");
             }
         });
     } catch (error) {
@@ -138,9 +138,9 @@ const mailVerified = asyncHandler(async(req,res)=>{
         return res.send(`
         <div style="text-align: center; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
             <img src="https://cdn-icons-png.flaticon.com/128/4436/4436481.png" alt="Verify Email Icon" style="width: 100px; height: 100px;">
-            <h1 style="font-size: 36px; font-weight: bold; padding: 20px;">Email Verified</h1>
-            <h4>Your email address was successfully verified.</h4>
-            <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; cursor: pointer; margin: 20px;" onclick="window.location.href = 'http://localhost:5173';">Go Back Home</button>
+            <h1 style="font-size: 36px; font-weight: bold; padding: 20px;">Xác thực Email</h1>
+            <h4>Địa chỉ Email của bạn đã được xác minh thành công.</h4>
+            <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; cursor: pointer; margin: 20px;" onclick="window.location.href = 'http://localhost:5173';">Quay về trang chủ</button>
         </div>
         `);
 } )
@@ -235,36 +235,33 @@ const getStudent = asyncHandler(async(req,res)=>{
     .json(new ApiResponse(200, user, "Student is logged in"))
 })
 const addStudentDetails = asyncHandler(async(req, res)=>{
-
     const id = req.params.id
     if(req.Student._id != id){
         throw new ApiError(400,"not authorized ")
     }
 
-    const {Phone, Address, Highesteducation, SecondarySchool, HigherSchool, SecondaryMarks, HigherMarks}  = req.body
+    const {Phone, Address, Highesteducation, SecondarySchool, HigherSchool, SecondaryMarks, HigherMarks} = req.body
 
-    if ([Phone, Address, Highesteducation, SecondarySchool, HigherSchool, SecondaryMarks, HigherMarks].some((field) => field?.trim() === "")) {
-        throw new ApiError(400, "All fields are required");
+    // Chỉ kiểm tra các trường bắt buộc
+    if ([Phone, Address, Highesteducation].some((field) => field?.trim() === "")) {
+        throw new ApiError(400, "Phone, Address and Highest education are required");
     }
 
     const alreadyExist = await studentdocs.findOne({Phone})
 
     if(alreadyExist){
-        throw new ApiError(400, "phone number already exists")
+        throw new ApiError(400, "SDT đã tồn tại")
     }
 
-    // Tạo studentdetails với URL mặc định cho các tài liệu
+    // Tạo studentdetails với các trường không bắt buộc có thể là null
     const studentdetails = await studentdocs.create({
         Phone,
         Address,
         Highesteducation,
-        SecondarySchool,
-        HigherSchool,
-        SecondaryMarks,
-        HigherMarks,
-        Aadhaar: "default_url",
-        Secondary: "default_url",
-        Higher: "default_url",
+        SecondarySchool: SecondarySchool || null,
+        HigherSchool: HigherSchool || null,
+        SecondaryMarks: SecondaryMarks || null,
+        HigherMarks: HigherMarks || null,
     })
 
     const theStudent = await student.findOneAndUpdate(
@@ -274,7 +271,7 @@ const addStudentDetails = asyncHandler(async(req, res)=>{
     ).select("-Password -Refreshtoken")
     
     if(!theStudent){
-        throw new ApiError(400,"faild to approve or reject || student not found")
+        throw new ApiError(400,"failed to approve or reject || student not found")
     }
 
     return res
@@ -305,15 +302,15 @@ const forgetPassword=asyncHandler(async(req,res)=>{
 
    const resetToken=`${process.env.FRONTEND_URL}/student/forgetpassword/${User.forgetPasswordToken}`
   
-   const subject='RESET PASSWORD'
+   const subject='Đặt lại mật khẩu'
 
-   const message=` <p>Dear ${User.Firstname}${User.Lastname},</p>
-   <p>We have received a request to reset your password. To proceed, please click on the following link: <a href="${resetToken}" target="_blank">reset your password</a>.</p>
-   <p>If the link does not work for any reason, you can copy and paste the following URL into your browser's address bar:</p>
+   const message=` <p>Kính gửi ${User.Firstname}${User.Lastname},</p>
+   <p>Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu của bạn. Để tiếp tục, vui lòng nhấp vào liên kết sau: <a href="${resetToken}" target="_blank">đặt lại mật khẩu</a>.</p>
+   <p>Nếu liên kết không hoạt động, bạn có thể sao chép và dán URL sau vào thanh địa chỉ trình duyệt của mình:</p>
    <p>${resetToken}</p>
-   <p>Thank you for being a valued member of the Shiksharthee community. If you have any questions or need further assistance, please do not hesitate to contact our support team.</p>
-   <p>Best regards,</p>
-   <p>The Shiksharthee Team</p>`
+   <p>Cảm ơn bạn đã là thành viên tích cực của cộng đồng ABC. Nếu bạn có bất kỳ câu hỏi nào hoặc cần hỗ trợ thêm, xin đừng ngần ngại liên hệ với đội ngũ hỗ trợ của chúng tôi.</p>
+   <p>Trân trọng,</p>
+   <p>Đội ngũ ABC</p>`
 
    try{
     
@@ -322,7 +319,7 @@ const forgetPassword=asyncHandler(async(req,res)=>{
     res.status(200).json({
 
         success:true,
-        message:`Reset password Email has been sent to ${Email} the email SuccessFully`
+        message:`Gửi email đặt lại mật khẩu tới ${Email} thành công`
      })
 
     }catch(error){

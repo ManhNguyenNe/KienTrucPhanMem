@@ -102,29 +102,29 @@ const StudentDocument = () => {
       <div className="flex items-center gap-[20rem] px-32 py-2 bg-[#0D286F]">
         <div className="flex items-center gap-3">
           <img src={logo} className="w-14" alt="" />
-          <h1 className="text-2xl text-[#4E84C1] font-bold">Shiksharthee</h1>
+          <h1 className="text-2xl text-[#4E84C1] font-bold">Trung Tâm Luyện Thi ABC</h1>
         </div>
-        <h2 className="text-white text-xl">Document Verification (Student) </h2>
+        <h2 className="text-white text-xl">Thông Tin Học Sinh</h2>
       </div>
       <hr />
       <form onSubmit={handleSubmit}>
-        <p className="text-[#4E84C1] p-5 px-10">Personal Information</p>
+        <p className="text-[#4E84C1] p-5 px-10">Thông tin cá nhân</p>
         <div className="flex flex-wrap gap-20 px-36 mb-10">
           <Input
-            label={"First Name"}
-            placeholder={"First Name"}
+            label={"Họ đệm"}
+            placeholder={"Điền họ đệm"}
             value={data.Firstname}
             readonly
           />
           <Input
-            label={"Last Name"}
-            placeholder={"Last Name"}
+            label={"Tên"}
+            placeholder={"Điền tên"}
             value={data.Lastname}
             readonly
           />
           <Input
-            label={"Phone No."}
-            placeholder={"Phone No."}
+            label={"Số điện thoại"}
+            placeholder={"Điền số điện thoại"}
             value={formData.Phone}
             onChange={(e) => handleInputChange("Phone", e.target.value)}
           />
@@ -132,14 +132,14 @@ const StudentDocument = () => {
 
         <div className="flex flex-wrap gap-20 px-36">
           <Input
-            label={"Home Address"}
-            placeholder={"Home Address"}
+            label={"Địa chỉ nhà"}
+            placeholder={"Điền địa chỉ nhà"}
             value={formData.Address}
             onChange={(e) => handleInputChange("Address", e.target.value)}
           />
           <Input
-            label={"Highest Education"}
-            placeholder={"Highest Education"}
+            label={"Học vấn hiện tại"}
+            placeholder={"Điền trình độ học vấn cao nhất"}
             value={formData.Highesteducation}
             onChange={(e) =>
               handleInputChange("Highesteducation", e.target.value)
@@ -148,22 +148,22 @@ const StudentDocument = () => {
         </div>
 
         <p className="text-[#4E84C1] p-5 px-10 pt-10">
-          Educational Information
+          Thông tin học vấn
         </p>
         <div className="border h-full mx-36 ">
           <div className="flex flex-row gap-7 ">
             <div className=" bg-[#0D286F] p-[1rem] m-3 rounded-sm">
-              <p className=" text-white text-sm">Secondary</p>
+              <p className=" text-white text-sm">Trung học cơ sở</p>
             </div>
             <Input
-              placeholder={"10th Board Name"}
+              placeholder={"Điền tên trường"}
               value={formData.SecondarySchool}
               onChange={(e) =>
                 handleInputChange("SecondarySchool", e.target.value)
               }
             />
             <Input
-              placeholder={"Total Marks (%)"}
+              placeholder={"Điểm trung bình"}
               value={formData.SecondaryMarks}
               onChange={(e) =>
                 handleInputChange("SecondaryMarks", e.target.value)
@@ -173,17 +173,17 @@ const StudentDocument = () => {
           <hr />
           <div className="flex flex-row gap-7">
             <div className=" bg-[#0D286F] p-[1rem] m-3 rounded-sm">
-              <p className=" text-white text-sm">Higher</p>
+              <p className=" text-white text-sm">Trung học phổ thông</p>
             </div>
             <Input
-              placeholder={"12th Board Name"}
+              placeholder={"Điền tên trường"}
               value={formData.HigherSchool}
               onChange={(e) =>
                 handleInputChange("HigherSchool", e.target.value)
               }
             />
             <Input
-              placeholder={"Total Marks (%)"}
+              placeholder={"Điểm trung bình"}
               value={formData.HigherMarks}
               onChange={(e) =>
                 handleInputChange("HigherMarks", e.target.value)
@@ -196,7 +196,7 @@ const StudentDocument = () => {
             type="submit"
             className="bg-[#0D286F] text-white px-10 py-2 rounded-md"
           >
-            Submit
+            Gửi
           </button>
         </div>
       </form>

@@ -121,29 +121,29 @@ const TeacherDocument = () => {
       <div className="flex items-center gap-[20rem] px-32 py-2 bg-[#0D286F]">
         <div className="flex items-center gap-3">
           <img src={logo} className="w-14" alt="" />
-          <h1 className="text-2xl text-[#4E84C1] font-bold">Shiksharthee</h1>
+          <h1 className="text-2xl text-[#4E84C1] font-bold">Trung Tâm Luyện Thi ABC</h1>
         </div>
-        <h2 className="text-white text-xl">Document Verification (Teacher) </h2>
+        <h2 className="text-white text-xl">Thông Tin Giáo Viên </h2>
       </div>
       <hr />
       <form onSubmit={handleSubmit}>
-        <p className="text-[#4E84C1] p-5 px-10">Personal Information</p>
+        <p className="text-[#4E84C1] p-5 px-10">Thông tin cá nhân</p>
         <div className="flex flex-wrap gap-20 px-36 mb-10">
           <Input
-            label={"First Name"}
-            placeholder={"First Name"}
+            label={"Họ đệm"}
+            placeholder={"Điền họ đệm"}
             value={data.Firstname}
             readonly
           />
           <Input
-            label={"Last Name"}
-            placeholder={"Last Name"}
+            label={"Tên"}
+            placeholder={"Điền tên"}
             value={data.Lastname}
             readonly
           />
           <Input
-            label={"Phone No."}
-            placeholder={"Phone No."}
+            label={"Số điện thoại"}
+            placeholder={"Điền số điện thoại"}
             value={formData.Phone}
             onChange={(e) => handleInputChange("Phone", e.target.value)}
           />
@@ -151,135 +151,128 @@ const TeacherDocument = () => {
 
         <div className="flex flex-wrap gap-20 px-36">
           <Input
-            label={"Home Address"}
-            placeholder={"Home Address"}
+            label={"Địa chỉ nhà"}
+            placeholder={"Điền địa chỉ nhà"}
             value={formData.Address}
             onChange={(e) => handleInputChange("Address", e.target.value)}
           />
           <Input
-            label={"Experience (years)"}
-            placeholder={"Experience (years)"}
+            label={"Kinh nghiệm giảng dạy"}
+            placeholder={"Điền số năm kinh nghiệm"}
             value={formData.Experience}
             onChange={(e) => handleInputChange("Experience", e.target.value)}
           />
-          <InputUpload
+          {/* <InputUpload
             label={"Upload Aadhar Card"}
             placeholder={"Upload Aadhar Card"}
             value={formData.Aadhaar}
             onChange={(e) => handleFileChange("Aadhaar", e)}
-          />
+          /> */}
         </div>
 
         <p className="text-[#4E84C1] p-5 px-10 pt-10">
-          Educational Information
+          Thông tin bằng cấp
         </p>
         <div className="border h-full mx-36 relative">
           <div className="flex flex-row gap-7 ">
             <div className=" bg-[#0D286F] p-[1rem] m-3 rounded-sm">
-              <p className=" text-white text-sm">Secondary</p>
+              <p className=" text-white text-sm">Trung học cơ sở</p>
             </div>
             <Input
-              placeholder={"10th Board Name"}
+              placeholder={"Tên trường"}
               value={formData.SecondarySchool}
               onChange={(e) =>
                 handleInputChange("SecondarySchool", e.target.value)
               }
             />
             <Input
-              placeholder={"Total Marks (%)"}
+              placeholder={"Điểm trung bình"}
               value={formData.SecondaryMarks}
               onChange={(e) =>
                 handleInputChange("SecondaryMarks", e.target.value)
               }
             />
-            <div className=" mt-[-1.5rem]">
+            {/* <div className=" mt-[-1.5rem]">
               <InputUpload
                 placeholder={"Upload 10th Result"}
                 value={formData.Secondary}
                 onChange={(e) => handleFileChange("Secondary", e)}
               />
-            </div>
+            </div> */}
           </div>
           <hr />
 
           <div className="flex flex-row gap-7 items-center">
             <div className=" bg-[#0D286F] p-[1rem] m-1 rounded-sm">
-              <p className=" text-white text-sm">Higher Secondary</p>
+              <p className=" text-white text-sm">Trung học phổ thông</p>
             </div>
             <Input
-              placeholder={"12th Board Name"}
+              placeholder={"Tên trường"}
               value={formData.HigherSchool}
               onChange={(e) =>
                 handleInputChange("HigherSchool", e.target.value)
               }
             />
             <Input
-              placeholder={"Total Marks (%)"}
+              placeholder={"Điểm trung bình"}
               value={formData.HigherMarks}
               onChange={(e) => handleInputChange("HigherMarks", e.target.value)}
             />
-            <div className=" mt-[-1.5rem]">
+            {/* <div className=" mt-[-1.5rem]">
               <InputUpload
                 placeholder={"Upload 12th Result"}
                 value={formData.Higher}
                 onChange={(e) => handleFileChange("Higher", e)}
               />
-            </div>
+            </div> */}
           </div>
           <hr />
 
             <div className="flex flex-row gap-7">
               <div className=" bg-[#0D286F] p-[1rem] m-3 rounded-sm">
-                <p className=" text-white text-sm">Graduation</p>
+                <p className=" text-white text-sm">Đại học</p>
               </div>
               <Input
-                placeholder={"Graduation University Name"}
+                placeholder={"Tên trường"}
                 value={formData.UGcollege}
                 onChange={(e) => handleInputChange("UGcollege", e.target.value)}
               />
               <Input
-                placeholder={"UGmarks/SGP out of 10"}
+                placeholder={"GPA"}
                 value={formData.UGmarks}
                 onChange={(e) => handleInputChange("UGmarks", e.target.value)}
               />
-              <div className=" mt-[-1.5rem]">
+              {/* <div className=" mt-[-1.5rem]">
                 <InputUpload
                   placeholder={"Upload Graduation .."}
                   value={formData.UG}
                   onChange={(e) => handleFileChange("UG", e)}
                 />
-              </div>
+              </div> */}
             </div>
           
           <hr />
             <div className="flex flex-row gap-7">
               <div className=" bg-[#0D286F] p-[1rem] m-1 rounded-sm px-4">
-                <p className=" text-white text-sm">Post Graduation</p>
+                <p className=" text-white text-sm">Sau đại học</p>
               </div>
               <Input
-                placeholder={"P.G. University Name"}
+                placeholder={"Tên trường"}
                 value={formData.PGcollege}
                 onChange={(e) => handleInputChange("PGcollege", e.target.value)}
               />
               <Input
-                placeholder={"CGPA out of 10"}
+                placeholder={"GPA"}
                 value={formData.PGmarks}
                 onChange={(e) => handleInputChange("PGmarks", e.target.value)}
               />
-              <div className=" mt-[-1.5rem]">
-                <InputUpload
-                  placeholder={"Upload P.G. Result"}
-                  value={formData.PG}
-                  onChange={(e) => handleFileChange("PG", e)}
-                />
-              </div>
             </div>
         </div>
 
         {error && <p className=" text-white text-xl m-5 text-center">!! {error}</p>}
         <div className=" bg-[#0D286F] p-3 m-6 rounded-md w-[7rem] ml-[85%] cursor-pointer">
           <button className=" text-white text-sm" type="submit">
-            Submit ▶️
+            Gửi ▶️
           </button>
         </div>
       </form>

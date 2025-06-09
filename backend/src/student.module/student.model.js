@@ -147,38 +147,27 @@ const studentDetailsSchema = new mongoose.Schema({
 
     SecondarySchool:{
         type:String,
-        required:true,
+        required: false,
+        default: null
     },
 
     HigherSchool:{
         type:String,
-        required:true,
+        required: false,
+        default: null
     },
 
     SecondaryMarks:{
-        type:Number,
-        required:true,
+        type: Number,
+        required: false,
+        default: null
     },
 
     HigherMarks:{
-        type:Number,
-        required:true,
-    },
-
-    Aadhaar:{
-        type:String,
-        required:true,
-    },
-
-    Secondary:{
-        type:String,
-        required:true,
-    },
-
-    Higher:{
-        type:String,
-        required:true,
-    },
+        type: Number,
+        required: false,
+        default: null
+    }
 
 }, {
     timestamps:true,

@@ -21,13 +21,13 @@ const verifyEmail = async (Email, Firstname, createdTeacherId) => {
         const mailOptions = {
             from: "kadyanparag@gmail.com",
             to: Email,
-            subject: "Verify your E-mail",
+            subject: "Xác minh email của bạn",
             html: `<div style="text-align: center;">
-            <p style="margin: 20px;"> Hi ${Firstname}, Please click the button below to verify your E-mail. </p>
+            <p style="margin: 20px;"> Xin chào ${Firstname}, vui lòng nhấp vào nút bên dưới để xác minh email của bạn. </p>
             <img src="https://img.freepik.com/free-vector/illustration-e-mail-protection-concept-e-mail-envelope-with-file-document-attach-file-system-security-approved_1150-41788.jpg?size=626&ext=jpg&uid=R140292450&ga=GA1.1.553867909.1706200225&semt=ais" alt="Verification Image" style="width: 100%; height: auto;">
             <br>
             <a href="http://localhost:5000/api/teacher/verify?id=${createdTeacherId}">
-                <button style="background-color: black; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 10px 0; cursor: pointer;">Verify Email</button>
+                <button style="background-color: black; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 10px 0; cursor: pointer;">Xác thực Email</button>
             </a>
         </div>`
         };
@@ -110,9 +110,9 @@ const mailVerified = asyncHandler(async (req, res) => {
         return res.send(`
         <div style="text-align: center; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
             <img src="https://cdn-icons-png.flaticon.com/128/4436/4436481.png" alt="Verify Email Icon" style="width: 100px; height: 100px;">
-            <h1 style="font-size: 36px; font-weight: bold; padding: 20px;">Email Verified</h1>
-            <h4>Your email address was successfully verified.</h4>
-            <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; cursor: pointer; margin: 20px;" onclick="window.location.href = 'http://localhost:5173';">Go Back Home</button>
+            <h1 style="font-size: 36px; font-weight: bold; padding: 20px;">Email đã được xác minh.</h1>
+            <h4>Địa chỉ email của bạn đã được xác minh thành công.</h4>
+            <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; cursor: pointer; margin: 20px;" onclick="window.location.href = 'http://localhost:5173';">Quay về trang chủ</button>
         </div>`
         );
     } catch (error) {
@@ -215,35 +215,61 @@ const addTeacherDetails = asyncHandler(async(req,res)=>{
 
     const{Phone, Address, Experience, SecondarySchool, HigherSchool,UGcollege, PGcollege, SecondaryMarks, HigherMarks, UGmarks, PGmarks} = req.body
 
-    if([Phone, Address, Experience, SecondarySchool, HigherSchool,UGcollege, PGcollege, SecondaryMarks, HigherMarks, UGmarks, PGmarks].some((field)=> field?.trim() === "")){
-        throw new ApiError(400, "All fields are required")
+    if([Phone, Address, Experience].some((field)=> field?.trim() === "")){
+        throw new ApiError(400, "Phone, Address and Experience are required")
     }
 
-    const alreadyExist = await Teacherdocs.findOne({Phone})
-
-    if(alreadyExist){
-        throw new ApiError(400, "Phone number already exist")
+    // Kiểm tra xem giáo viên có đang trong trạng thái reupload không
+    const teacher = await Teacher.findById(id)
+    if (!teacher) {
+        throw new ApiError(400, "Teacher not found")
     }
 
-    // Tạo teacherdetails với URL mặc định cho các file
-    const teacherdetails = await Teacherdocs.create({
-        Phone,
-        Address,
-        Experience,
-        SecondarySchool,
-        HigherSchool,
-        UGcollege,
-        PGcollege,
-        SecondaryMarks,
-        HigherMarks,
-        UGmarks,
-        PGmarks,
-        Aadhaar: "https://example.com/default-aadhaar.jpg",
-        Secondary: "https://example.com/default-secondary.jpg",
-        Higher: "https://example.com/default-higher.jpg",
-        UG: "https://example.com/default-ug.jpg",
-        PG: "https://example.com/default-pg.jpg"
-    })
+    // Nếu không phải reupload thì kiểm tra số điện thoại
+    if (teacher.Isapproved !== "reupload") {
+        const alreadyExist = await Teacherdocs.findOne({Phone})
+        if(alreadyExist){
+            throw new ApiError(400, "Phone number already exist")
+        }
+    }
+
+    // Tạo hoặc cập nhật teacherdetails
+    let teacherdetails
+    if (teacher.Teacherdetails) {
+        // Nếu đã có teacherdetails thì cập nhật
+        teacherdetails = await Teacherdocs.findByIdAndUpdate(
+            teacher.Teacherdetails,
+            {
+                Phone,
+                Address,
+                Experience,
+                SecondarySchool,
+                HigherSchool,
+                UGcollege,
+                PGcollege,
+                SecondaryMarks,
+                HigherMarks,
+                UGmarks,
+                PGmarks
+            },
+            { new: true }
+        )
+    } else {
+        // Nếu chưa có thì tạo mới
+        teacherdetails = await Teacherdocs.create({
+            Phone,
+            Address,
+            Experience,
+            SecondarySchool,
+            HigherSchool,
+            UGcollege,
+            PGcollege,
+            SecondaryMarks,
+            HigherMarks,
+            UGmarks,
+            PGmarks
+        })
+    }
 
     const theTeacher = await Teacher.findOneAndUpdate(
         {_id: id}, 
@@ -294,15 +320,15 @@ const ForgetPassword=asyncHandler(async(req,res)=>{
  
     const resetToken=`${process.env.FRONTEND_URL}/teacher/forgetpassword/${User.forgetPasswordToken}`
    
-    const subject='RESET PASSWORD'
+    const subject='Đặt lại mật khẩu'
  
-    const message=` <p>Dear ${User.Firstname}${User.Lastname},</p>
-    <p>We have received a request to reset your password. To proceed, please click on the following link: <a href="${resetToken}" target="_blank">reset your password</a>.</p>
-    <p>If the link does not work for any reason, you can copy and paste the following URL into your browser's address bar:</p>
+    const message=` <p>Kính gửi ${User.Firstname}${User.Lastname},</p>
+    <p>Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu của bạn. Để tiếp tục, vui lòng nhấp vào liên kết sau: <a href="${resetToken}" target="_blank">Đặt lại mật khẩu</a>.</p>
+    <p>Nếu liên kết không hoạt động, bạn có thể sao chép và dán URL sau vào thanh địa chỉ trình duyệt của mình:</p>
     <p>${resetToken}</p>
-    <p>Thank you for being a valued member of the Shiksharthee community. If you have any questions or need further assistance, please do not hesitate to contact our support team.</p>
-    <p>Best regards,</p>
-    <p>The Shiksharthee Team</p>`
+    <p>Cảm ơn bạn đã là thành viên tích cực của cộng đồng ABC. Nếu bạn có bất kỳ câu hỏi nào hoặc cần hỗ trợ thêm, xin đừng ngần ngại liên hệ với đội ngũ hỗ trợ của chúng tôi.</p>
+    <p>Trân trọng,</p>
+    <p>Đội ngũ ABC</p>`
  
     try{
      

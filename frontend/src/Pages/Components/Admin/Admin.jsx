@@ -121,7 +121,7 @@ const Admin = () => {
             className="w-14 sm:h-12 md:h-14 lg:h-16 xl:h-18"
           />
           <h1 className="text-2xl text-[#4E84C1] font-bold">
-            Shiksharthee
+          Trung Tâm Luyện Thi ABC
           </h1>
         </div>
         </NavLink>
@@ -179,7 +179,7 @@ const Admin = () => {
                   <h1 className="text-[24px] text-1xl text-white mr-3">
                     {student.Firstname + " " + student.Lastname}
                   </h1>
-                  <p>Status: <span>{student.Isapproved}</span></p>
+                  <p>Trạng thái: <span>{student.Isapproved}</span></p>
                 </div>
               )
             )) : null
@@ -199,7 +199,7 @@ const Admin = () => {
                   <h1 className="text-[24px] text-1xl text-white mr-3">
                     {teacher.Firstname + " " + teacher.Lastname}
                   </h1>
-                  <p>Status: <span>{teacher.Isapproved}</span></p>
+                  <p>Trạng thái: <span>{teacher.Isapproved}</span></p>
                 </div>
               )
             )) : null

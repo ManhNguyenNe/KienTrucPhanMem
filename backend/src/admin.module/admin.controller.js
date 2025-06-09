@@ -194,15 +194,15 @@ const approveStudent = asyncHandler(async(req,res)=>{
     
     console.log("email", email);
 
-    await Sendmail(email, `Document Verification Status`, 
+    await Sendmail(email, `Xác minh tài liệu`, 
         `<html>
             <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-            <h1 style="color: #4CAF50; text-align: center;">Document Verification Status!</h1>
-            <p style="font-size: 16px; text-align: center;">We have completed the verification process for the documents you submitted. Your document verification status is: ${toApprove}</p>
-            <p style="font-size: 16px;">Remarks: ${remarks}</p>
-            <p style="font-size: 16px;">Best regards,</p>
-            <p style="font-size: 16px;"><strong>The Shiksharthee Team</strong></p>
-            <p style="font-size: 14px;">&copy; 2024 Shiksharthee. All rights reserved.</p>
+            <h1 style="color: #4CAF50; text-align: center;">Thông báo xác minh tài liệu</h1>
+            <p style="font-size: 16px; text-align: center;">Chúng tôi đã hoàn tất quá trình xác minh các tài liệu mà bạn đã gửi. Tình trạng xác minh tài liệu của bạn là: ${toApprove}</p>
+            <p style="font-size: 16px;">Ghi chú: ${remarks}</p>
+            <p style="font-size: 16px;">Trân trọng,</p>
+            <p style="font-size: 16px;"><strong>Đội ngũ quản trị ABC</strong></p>
+            <p style="font-size: 14px;">&copy; 2024 ABC. Bảo lưu mọi quyền.</p>
             </body>
         </html>`
     )
@@ -248,15 +248,15 @@ const approveTeacher = asyncHandler(async(req,res)=>{
         throw new ApiError(400,"faild to approve or reject || student not found")
     }
 
-    await Sendmail(email, `Document Verification Status`, 
+    await Sendmail(email, `Xác minh tài liệu`, 
         `<html>
             <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-            <h1 style="color: #4CAF50; text-align: center;">Document Verification Status!</h1>
-            <p style="font-size: 16px; text-align: center;">We have completed the verification process for the documents you submitted. Your document verification status is: ${toApprove}</p>
-            <p style="font-size: 16px;">Remarks: ${remarks}</p>
-            <p style="font-size: 16px;">Best regards,</p>
-            <p style="font-size: 16px;"><strong>The Shiksharthee Team</strong></p>
-            <p style="font-size: 14px;">&copy; 2024 Shiksharthee. All rights reserved.</p>
+            <h1 style="color: #4CAF50; text-align: center;">Thông báo xác minh tài liệu</h1>
+            <p style="font-size: 16px; text-align: center;">Chúng tôi đã hoàn tất quá trình xác minh các tài liệu mà bạn đã gửi. Tình trạng xác minh tài liệu của bạn là: ${toApprove}</p>
+            <p style="font-size: 16px;">Ghi chú: ${remarks}</p>
+            <p style="font-size: 16px;">Trân trọng,</p>
+            <p style="font-size: 16px;"><strong>Đội ngũ quản trị ABC</strong></p>
+            <p style="font-size: 14px;">&copy; 2024 ABC. Bảo lưu mọi quyền.</p>
             </body>
         </html>`
     )
@@ -306,7 +306,19 @@ const checkStudentDocuments = asyncHandler(async(req,res)=>{
     
     return res
     .status(200)
-    .json(new ApiResponse(200, {loggedAdmin, theStudent, studentDocs}, "documents retrieved successfully"))
+    .json(new ApiResponse(200, {
+        loggedAdmin, 
+        theStudent, 
+        studentDocs: {
+            Phone: studentDocs.Phone,
+            Address: studentDocs.Address,
+            Highesteducation: studentDocs.Highesteducation,
+            SecondarySchool: studentDocs.SecondarySchool,
+            HigherSchool: studentDocs.HigherSchool,
+            SecondaryMarks: studentDocs.SecondaryMarks,
+            HigherMarks: studentDocs.HigherMarks
+        }
+    }, "documents retrieved successfully"))
 
 
 })
@@ -350,7 +362,23 @@ const checkTeacherDocuments = asyncHandler(async(req,res)=>{
 
     return res
     .status(200)
-    .json(new ApiResponse(200, {loggedAdmin, theTeacher, teacherDocs}, "documents retrieved successfully"))
+    .json(new ApiResponse(200, {
+        loggedAdmin, 
+        theTeacher, 
+        teacherDocs: {
+            Phone: teacherDocs.Phone,
+            Address: teacherDocs.Address,
+            Experience: teacherDocs.Experience,
+            SecondarySchool: teacherDocs.SecondarySchool,
+            HigherSchool: teacherDocs.HigherSchool,
+            UGcollege: teacherDocs.UGcollege,
+            PGcollege: teacherDocs.PGcollege,
+            SecondaryMarks: teacherDocs.SecondaryMarks,
+            HigherMarks: teacherDocs.HigherMarks,
+            UGmarks: teacherDocs.UGmarks,
+            PGmarks: teacherDocs.PGmarks
+        }
+    }, "documents retrieved successfully"))
 
 
 })
@@ -479,16 +507,16 @@ const approveCourse = asyncHandler(async(req,res)=>{
 
         const Fname = req.body.Firstname;
 
-        Sendmail(req.body.email, `Course Approval Update`, 
+        Sendmail(req.body.email, `Cập nhật thông tin khóa học`, 
             `<html>
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-                <h1 style="color: #4CAF50; text-align: center;">Congratulations!</h1>
-                <p style="font-size: 16px; text-align: center;">Dear ${Fname},</p>
-                <p style="font-size: 16px; text-align: center;">We are delighted to inform you that your course ( ${theCourse.coursename} ) submission has been reviewed and approved by our team.</p>
-                <p style="font-size: 16px;">Thank you for being a part of our educational community. We look forward to seeing your course make a positive impact on learners around the world.</p>
-                <p style="font-size: 16px;">Best regards,</p>
-                <p style="font-size: 16px;"><strong>The Shiksharthee Team</strong></p>
-                <p style="font-size: 14px;">&copy; 2024 Shiksharthee. All rights reserved.</p>
+                <h1 style="color: #4CAF50; text-align: center;">Chúc mừng!</h1>
+                <p style="font-size: 16px; text-align: center;">Kính gửi ${Fname},</p>
+                <p style="font-size: 16px; text-align: center;">Chúng tôi rất vui mừng thông báo rằng khóa học ( ${theCourse.coursename} ) của bạn đã được xem xét và phê duyệt.</p>
+                <p style="font-size: 16px;">Cảm ơn bạn đã là một phần của cộng đồng giáo dục. Trung tâm mong đợi khóa học của bạn sẽ mang lại những tác động tích cực cho người học.</p>
+                <p style="font-size: 16px;">Trân trọng,</p>
+                <p style="font-size: 16px;"><strong>Đội ngũ quản trị ABC</strong></p>
+                <p style="font-size: 14px;">&copy; 2024 ABC. Bảo lưu mọi quyền.</p>
                 </body>
             </html>
         `)
@@ -502,16 +530,16 @@ const approveCourse = asyncHandler(async(req,res)=>{
         const theCourse = await course.findByIdAndDelete({_id: courseID}, {new:true})
         const Fname = req.body.Firstname;
 
-        Sendmail(req.body.email, `Course Approval Update`, 
+        Sendmail(req.body.email, `Cập nhật thông tin khóa học`, 
             `<html>
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-                <h1 style="color: #4CAF50; text-align: center;">Cập nhật thông tin khóa học</h1>
+                <h1 style="color: #4CAF50; text-align: center;">Khoá học chưa đủ điều kiện</h1>
                 <p style="font-size: 16px; text-align: center;">Kính gửi ${Fname},</p>
-                <p style="font-size: 16px; text-align: center;">Sau khi đánh giá kỹ lưỡng, chúng tôi rất tiếc phải thông báo rằng khóa học của bạn., <strong>( ${theCourse.coursename} )</strong>, không đáp ứng đủ các yêu cầu tại thời điểm này.</p>
+                <p style="font-size: 16px; text-align: center;">Sau khi đánh giá kỹ lưỡng, chúng tôi rất tiếc phải thông báo rằng khóa học của bạn, <strong>( ${theCourse.coursename} )</strong>, không đáp ứng đủ các yêu cầu tại thời điểm này.</p>
                 <p style="font-size: 16px;">Cảm ơn bạn đã thông cảm và cam kết mang đến một nền giáo dục chất lượng.</p>
                 <p style="font-size: 16px;">Trân trọng,</p>
                 <p style="font-size: 16px;"><strong>Đội ngũ quản trị ABC</strong></p>
-                <p style="font-size: 14px;">&copy; 2024 ABC. Bảo lưu mọi quyền".</p>
+                <p style="font-size: 14px;">&copy; 2024 ABC. Bảo lưu mọi quyền.</p>
                 </body>
             </html>
         `)

@@ -356,7 +356,7 @@ const addClass = asyncHandler(async(req,res) => {
 
   return res
   .status(200)
-  .json(new ApiResponse(200, {enrolledCourse, loggedTeacher}, "class added successfully"))
+  .json(new ApiResponse(200, {enrolledCourse, loggedTeacher}, "Tạo lớp thành công"))
 })
 
 
