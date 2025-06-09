@@ -120,7 +120,7 @@ const addCourseTeacher = asyncHandler(async(req,res)=>{
 
     return res
     .status(200)
-    .json(new ApiResponse(200, {newCourse, loggedTeacher}, "Tạo thành công@"))
+    .json(new ApiResponse(200, {newCourse, loggedTeacher}, "Tạo thành công"))
     
 })
 
@@ -132,17 +132,17 @@ const addCourseStudent = asyncHandler(async(req,res)=>{
   const studentParams = req.params.id
 
   if(!studentParams){
-    throw new ApiError(400, "no params found")
+    throw new ApiError(400, "Không tìm thấy thông tin học sinh")
   }
 
   if(loggedStudent._id != studentParams){
-    throw new ApiError(400, "not authorized")
+    throw new ApiError(400, "Không có quyền truy cập")
   }
 
   const courseID = req.params.courseID
   
   if(!courseID){
-    throw new ApiError(400, "select a course")
+    throw new ApiError(400, "Vui lòng chọn khóa học")
   }
 
   const thecourse = await course.findById(courseID) //
@@ -203,7 +203,7 @@ const addCourseStudent = asyncHandler(async(req,res)=>{
     })
 
   if(!selectedCourse){
-    throw new ApiError(400, "failed to add student in course schema")
+    throw new ApiError(400, "Không thể thêm học sinh vào khóa học")
   }
 
   const teacherID = selectedCourse.enrolledteacher
@@ -217,23 +217,31 @@ const addCourseStudent = asyncHandler(async(req,res)=>{
       new: true
   })
 
-  await Sendmail(loggedStudent.Email, `Payment Confirmation for Course Purchase`, 
+  await Sendmail(loggedStudent.Email, `Xác nhận đăng ký khóa học`, 
     `<html>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-        <h1 style="color: #4CAF50; text-align: center;">Payment Successful!</h1>
-        <p style="font-size: 16px; text-align: center;">Dear ${loggedStudent.Firstname},</p>
-        <p style="font-size: 16px; text-align: center;">We are pleased to inform you that your payment for the course has been successfully processed.</p>
-         <p style="font-size: 16px;">You can start accessing the course immediately by logging into your account.</p>
-        <p style="font-size: 16px;">Best regards,</p>
-        <p style="font-size: 16px;"><strong>The Shiksharthee Team</strong></p>
-        <p style="font-size: 14px;">&copy; 2024 Shiksharthee. All rights reserved.</p>
+        <h1 style="color: #4CAF50; text-align: center;">Đăng ký khóa học thành công!</h1>
+        <p style="font-size: 16px; text-align: center;">Xin chào ${loggedStudent.Firstname} ${loggedStudent.Lastname},</p>
+        <p style="font-size: 16px; text-align: center;">Chúng tôi xin thông báo rằng bạn đã đăng ký thành công khóa học ${selectedCourse.coursename}.</p>
+        <p style="font-size: 16px;">Thời gian học:</p>
+        <ul style="font-size: 16px;">
+          ${selectedCourse.schedule.map(sch => `
+            <li>${['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'][sch.day]}: 
+            ${Math.floor(sch.starttime/60)}:${sch.starttime%60 === 0 ? '00' : sch.starttime%60} - 
+            ${Math.floor(sch.endtime/60)}:${sch.endtime%60 === 0 ? '00' : sch.endtime%60}</li>
+          `).join('')}
+        </ul>
+        <p style="font-size: 16px;">Bạn có thể bắt đầu truy cập khóa học ngay bây giờ bằng cách đăng nhập vào tài khoản của mình.</p>
+        <p style="font-size: 16px;">Trân trọng,</p>
+        <p style="font-size: 16px;"><strong>Đội ngũ ABC</strong></p>
+        <p style="font-size: 14px;">&copy; 2024 ABC. Bảo lưu mọi quyền.</p>
         </body>
     </html>`
   )
 
   return res
   .status(200)
-  .json( new ApiResponse(200, {teacher, selectedCourse, loggedStudent}, "successfully opted in course"))
+  .json( new ApiResponse(200, {teacher, selectedCourse, loggedStudent}, "Đăng ký khóa học thành công"))
 })
 
 const enrolledcourseSTD = asyncHandler(async(req,res)=>{
