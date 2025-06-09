@@ -1,15 +1,11 @@
 {
   "name": "elearning",
   "version": "1.0.0",
-  "description": "",
   "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon  -r dotenv/config --experimental-json-modules src/index.js"
   },
-  "github": "https://github.com/Pika003/e-Learning-Platform.git",
-  "author": "Parag, Satyajit, Gopi, Aditya",
-  "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "bcrypt": "^5.1.1",
